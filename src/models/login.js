@@ -17,7 +17,7 @@ export default {
     effects: {
         * login({payload}, {call, put}) {
             const response = yield call(accountLogin, payload);
-            console.log(response,'response');
+            // console.log(response,'response');
             //先默认清除登录信息
             T.auth.clearLoginInfo();
             //登录失败提示信息
@@ -25,10 +25,12 @@ export default {
                 T.prompt.error(response.msg)
             }
             //如果是管理员账户，那就给最高权限
-            // if(response.user.userCode === 'system'){
-            //     response["currentAuthority"] = "admin";
-            // }
-            response["currentAuthority"] = "admin";
+            if(response.data.static_auth === 0){
+                response["currentAuthority"] = "user";
+            }else if (response.data.static_auth === 1){
+                response["currentAuthority"] = "admin";
+            }
+
             //类似于reducer，
             yield put({
                 type: 'changeLoginStatus',
@@ -58,7 +60,8 @@ export default {
                     }
                 }
                 yield put(routerRedux.replace({
-                    pathname:redirect || '/',
+                    // pathname: redirect || (response.data.static_auth === 0 ? '/addInfo': (response.data.static_auth === 1) ? '/jobStatistics':'/'),
+                    pathname: redirect || (response.data.static_auth === 0 ? '/addInfo':'/'),
                     loginInfo: response
                 }));
             }
@@ -78,17 +81,20 @@ export default {
             });
             reloadAuthorized();
             const {redirect} = getPageQuery();
+            // console.log(redirect,'redirect');
             // redirect
             if (window.location.pathname !== '/user/login' && !redirect) {
+                // console.log(window.location.href,'window.location.href');
+                // console.log(window.location.pathname,'window.location.pathname');
                 T.auth.clearLoginInfo();
                 T.storage.clearStorage('taskId');
                 T.storage.clearStorage('HtmlType');
                 yield put(
                     routerRedux.replace({
                         pathname: '/user/login',
-                        search: stringify({
-                            redirect: window.location.href,
-                        }),
+                        // search: stringify({
+                        //     redirect: window.location.href,
+                        // }),
                     })
                 );
             }

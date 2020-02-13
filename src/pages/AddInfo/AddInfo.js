@@ -38,7 +38,7 @@ const {TextArea} = Input;
 const {Option} = Select;
 const {Panel} = Collapse;
 
-import styles from './CheckRecordList.less';
+import styles from './AddInfo.less';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper'; // @ 表示相对于源文件根目录
 
 
@@ -49,9 +49,9 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper'; // @ 表示相�
     // fetchTreeStatus: loading.effects['checkRecord/getDataResourceTreeAction'],
     fetchCheckRecordListStatus: loading.effects['checkRecord/fetchCheckRecordListAction'],
 }))
-// class CheckRecordList
+// class AddInfo
 @Form.create()
-class CheckRecordList extends PureComponent {
+class AddInfo extends PureComponent {
 
     state = {
         currentPage: EnumDataSyncPageInfo.defaultPage,//分页
@@ -435,11 +435,11 @@ class CheckRecordList extends PureComponent {
                     size: EnumDataSyncPageInfo.defaultPageSize,
                     startTime: T.lodash.isUndefined(values.startDate) ? '' : T.helper.dateFormat(values.startDate,'YYYY-MM-DD'),      //开始时间
                     endTime: T.lodash.isUndefined(values.endDate) ? '' : T.helper.dateFormat(values.endDate,'YYYY-MM-DD'),        //结束时间
-                    area: T.auth.isAdmin() ? selectedArea === "烟台市" ? '' : selectedArea : loginInfo.data.area,           //县市区(烟台市传空)
+                    area: selectedArea === "烟台市" ? '' : selectedArea,           //县市区(烟台市传空)
                     name: T.lodash.isUndefined(values.person) ? '' : values.person,           //被调查人姓名
                     gender: T.lodash.isUndefined(values.sex) ? '' : values.sex === 'all' ? '' : values.sex,         //性别
                     // idCard: "",         //身份证号
-                    baseInfo: T.lodash.isUndefined(values.base) ? '' : values.base === '全部' ? '' : values.base,         //被调查人基本情况
+                    baseInfo: T.lodash.isUndefined(values.base) ?  '' : values.base === '全部' ? '' : values.base,         //被调查人基本情况
                     bodyCondition: T.lodash.isUndefined(values.status) ? '' : values.status === '全部' ? '' : values.status,         //身体状况
                     fillUserName: T.lodash.isUndefined(values.head) ? '' : values.head,   //摸排人
                     fillUserId: loginInfo.data.static_auth === 0 ? loginInfo.data.id : ''   //摸排人id
@@ -551,10 +551,20 @@ class CheckRecordList extends PureComponent {
 
     };
 
+    //新增功能
+    addInfoBtn = () => {
+        router.push({
+            pathname: '/addInfo/addInfoList',
+            params: {
+                isRouterPush: true,
+            },
+        });
+    };
+
     //查看详情
     showMetadataManage = (e, key) => {
         router.push({
-            pathname: '/checkRecord/showDetail',
+            pathname: '/addInfo/addInfoDetail',
             params: {
                 isRouterPush: true,
                 data: key
@@ -694,36 +704,31 @@ class CheckRecordList extends PureComponent {
             }),
         };
         return (
-            <PageHeaderWrapper title="摸排记录查询">
+            <PageHeaderWrapper title="信息管理">
                 <Row gutter={24}>
-                    {
-                        T.auth.isAdmin() ?
-                            <Col xl={4} lg={4} md={4} sm={24} xs={24}>
-                                <Card
-                                    title="资源列表"
-                                    bordered={false}
-                                    style={{
-                                        width: '100%',
-                                        height: '100%',
-                                    }}
-                                >
-                                    {
-                                        fetchTreeStatus ? <Spin/> :
-                                            <DirectoryTree
-                                                multiple
-                                                defaultExpandAll={true}
-                                                onSelect={this.onSelect.bind(this)}
-                                                selectedKeys={[selectedKey]}
-                                            >
-                                                {this.renderTreeNodes(treeData)}
-                                            </DirectoryTree>
-                                    }
-                                </Card>
-                            </Col>
-                            :
-                            null
-                    }
-                    <Col xl={T.auth.isAdmin() ? 20: 24} lg={T.auth.isAdmin() ? 20: 24} md={T.auth.isAdmin() ? 20: 24} sm={24} xs={24} className={styles.dataSourceTableList}>
+                    {/*<Col xl={5} lg={5} md={5} sm={24} xs={24}>
+                        <Card
+                            title="资源列表"
+                            bordered={false}
+                            style={{
+                                width: '100%',
+                                height: '100%',
+                            }}
+                        >
+                            {
+                                fetchTreeStatus ? <Spin/> :
+                                    <DirectoryTree
+                                        multiple
+                                        defaultExpandAll={true}
+                                        onSelect={this.onSelect.bind(this)}
+                                        selectedKeys={[selectedKey]}
+                                    >
+                                        {this.renderTreeNodes(treeData)}
+                                    </DirectoryTree>
+                            }
+                        </Card>
+                    </Col>*/}
+                    <Col xl={24} lg={24} md={24} sm={24} xs={24} className={styles.dataSourceTableList}>
                         <Form layout="inline" onSubmit={this.searchDataSource}>
                             <Row className={`${styles.dataSourceTitle} ${styles.tableListForms}`}
                                  style={{marginBottom: 10}}>
@@ -786,14 +791,14 @@ class CheckRecordList extends PureComponent {
                                 </Col>
                             </Row>
                             <Row className={`${styles.dataSourceTitle} ${styles.tableListForms}`}
-                                 style={{marginBottom: 10}}>
-
+                                 style={{marginBottom: 10}}
+                            >
                                 <Col xl={6} lg={6} md={6} sm={6} xs={24}>
                                     <Form.Item
                                         label={<FormattedMessage
                                             id="checkRecord.resourceList.base.label"/>}
                                     >
-                                        {getFieldDecorator('base',{
+                                        {getFieldDecorator('base', {
                                             initialValue: "全部"
                                         })(
                                             <Select
@@ -811,7 +816,7 @@ class CheckRecordList extends PureComponent {
                                         label={<FormattedMessage
                                             id="checkRecord.resourceList.status.label"/>}
                                     >
-                                        {getFieldDecorator('status',{
+                                        {getFieldDecorator('status', {
                                             initialValue: "全部"
                                         })(
                                             <Select
@@ -847,9 +852,12 @@ class CheckRecordList extends PureComponent {
                                         <Button onClick={this.resetDataSource} type="primary" style={{marginRight: 10}}>
                                             <FormattedMessage id="checkRecord.btn.reset"/>
                                         </Button>
-                                        {/*<Button onClick={this.exportData} type="primary">*/}
+                                        {/*<Button onClick={this.exportData} type="primary" style={{marginRight: 10}}>*/}
                                             {/*<FormattedMessage id="checkRecord.btn.output"/>*/}
                                         {/*</Button>*/}
+                                        <Button onClick={this.addInfoBtn} type="primary">
+                                            新增
+                                        </Button>
                                     </Form.Item>
                                 </Col>
                             </Row>
@@ -882,4 +890,4 @@ class CheckRecordList extends PureComponent {
     }
 }
 
-export default CheckRecordList;
+export default AddInfo;

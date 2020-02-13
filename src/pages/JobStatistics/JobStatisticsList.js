@@ -212,11 +212,13 @@ class JobStatisticsList extends PureComponent {
         let self = this;
         form.validateFieldsAndScroll((err, values) => {
             if (!err) {
+                let loginInfo = T.auth.getLoginInfo();
+
                 let params = {
                     // current: currentPage,
                     // size: EnumDataSyncPageInfo.defaultPageSize,
                     date: T.lodash.isUndefined(values.startDate) ? '' : values.startDate === null ?  '' :T.helper.dateFormat(values.startDate,'YYYY-MM-DD'),      //开始时间
-                    area: selectedArea === "烟台市" ? '' : selectedArea,           //县市区(烟台市传空)
+                    area: T.auth.isAdmin() ? selectedArea === "烟台市" ? '' : selectedArea : loginInfo.data.area,           //县市区(烟台市传空)
                 };
                 new Promise((resolve, reject) => {
                     dispatch({
@@ -385,42 +387,52 @@ class JobStatisticsList extends PureComponent {
                 title: '序号',
                 dataIndex: 'key',
                 key: 'key',
+                width: '5%',
             },
             {
                 title: '地区',
                 dataIndex: 'area',
+                width: '8%',
             },
             {
                 title: '摸排总人数',
                 dataIndex: 'sum',
+                width: '8%',
             },
             {
                 title: '来烟（返烟）人数',
                 dataIndex: 'backSum',
+                width: '8%',
             },
             {
                 title: '与确诊、疑似病例有过密切接触的人数',
                 dataIndex: 'touchSuspectSum',
+                width: '12%',
             },
             {
                 title: '与密切接触者有过共同生活、工作、学习、聚会的人数',
                 dataIndex: 'touchIntimateSum',
+                width: '12%',
             },
             {
                 title: '与重点疫区人员有过接触的人数',
                 dataIndex: 'touchInfectorSum',
+                width: '12%',
             },
             {
                 title: '身体状况异常的人数',
                 dataIndex: 'bodyAbnormalSum',
+                width: '8%',
             },
             {
                 title: '当日集中隔离人数',
                 dataIndex: 'currentIsolateSum',
+                width: '8%',
             },
             {
                 title: '累计集中隔离人数（1月24日至今）',
                 dataIndex: 'isolateSum',
+                width: '12%',
                 render: (text, record) => {
                     // if (record.isolatedTotalNumEdit && record.isolatedTotalNumFirst) {
                     //     return (
@@ -450,10 +462,12 @@ class JobStatisticsList extends PureComponent {
             {
                 title: '当日居家隔离人数',
                 dataIndex: 'currentIsolateHomeSum',
+                width: '8%',
             },
             {
                 title: '累计居家隔离人数（1月24日至今）',
                 dataIndex: 'isolateHomeSum',
+                width: '12%',
                 render: (text, record) => {
                     // if (record.atHomeTotalNumEdit && record.atHomeTotalNumFirst) {
                     //     return (
@@ -497,29 +511,34 @@ class JobStatisticsList extends PureComponent {
         return (
             <PageHeaderWrapper title="摸排工作统计">
                 <Row gutter={24}>
-                    <Col xl={5} lg={5} md={5} sm={24} xs={24}>
-                        <Card
-                            title="资源列表"
-                            bordered={false}
-                            style={{
-                                width: '100%',
-                                height: '100%',
-                            }}
-                        >
-                            {
-                                fetchTreeStatus ? <Spin/> :
-                                    <DirectoryTree
-                                        multiple
-                                        defaultExpandAll={true}
-                                        onSelect={this.onSelect.bind(this)}
-                                        selectedKeys={[selectedKey]}
-                                    >
-                                        {this.renderTreeNodes(treeData)}
-                                    </DirectoryTree>
-                            }
-                        </Card>
-                    </Col>
-                    <Col xl={19} lg={19} md={19} sm={24} xs={24} className={styles.dataSourceTableList}>
+                    {
+                        T.auth.isAdmin() ?
+                            <Col xl={4} lg={4} md={4} sm={24} xs={24}>
+                                <Card
+                                    title="资源列表"
+                                    bordered={false}
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                    }}
+                                >
+                                    {
+                                        fetchTreeStatus ? <Spin/> :
+                                            <DirectoryTree
+                                                multiple
+                                                defaultExpandAll={true}
+                                                onSelect={this.onSelect.bind(this)}
+                                                selectedKeys={[selectedKey]}
+                                            >
+                                                {this.renderTreeNodes(treeData)}
+                                            </DirectoryTree>
+                                    }
+                                </Card>
+                            </Col>
+                            :
+                            null
+                    }
+                    <Col xl={T.auth.isAdmin() ? 20: 24} lg={T.auth.isAdmin() ? 20: 24} md={T.auth.isAdmin() ? 20: 24} sm={24} xs={24} className={styles.dataSourceTableList}>
                         <Form layout="inline" onSubmit={this.searchDataSource}>
                             <Row className={`${styles.dataSourceTitle} ${styles.tableListForms}`}
                                  style={{marginBottom: 10}}>
@@ -534,7 +553,7 @@ class JobStatisticsList extends PureComponent {
                                             //         // message:'请选择查询时间'
                                             //     },
                                             // ],
-                                            initialValue: T.moment(new Date().getTime()),
+                                            initialValue: T.moment(new Date().getTime()-24*60*60*1000),
                                         })(
                                             <DatePicker/>
                                         )}
@@ -548,9 +567,9 @@ class JobStatisticsList extends PureComponent {
                                         <Button onClick={this.resetDataSource} type="primary" style={{marginRight: 10}}>
                                             重置
                                         </Button>
-                                        <Button onClick={this.exportData} type="primary">
-                                            导出
-                                        </Button>
+                                        {/*<Button onClick={this.exportData} type="primary">*/}
+                                            {/*导出*/}
+                                        {/*</Button>*/}
                                     </Form.Item>
                                 </Col>
                             </Row>
