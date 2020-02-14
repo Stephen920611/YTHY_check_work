@@ -15,7 +15,7 @@ import {
 /* eslint react/no-multi-comp:0 */
 @connect(({checkRecord, loading}) => ({
     checkRecord,
-    fetchStatus: loading.effects['checkRecord/fetchMemberInfoAction'],
+    fetchStatus: loading.effects['checkRecord/fetchDetailInfoAction'],
 }))
 class CheckRecordDetail extends PureComponent {
     constructor() {
@@ -25,79 +25,39 @@ class CheckRecordDetail extends PureComponent {
             currentInfo: {},
             member: {},
             touch: [],
-            basicPersonnelInformation: {
-                "msg": "success",
-                "code": 0,
-                "activities": [
-                    {
-                        "id": 1362,
-                        "memberId": 2476,
-                        "backFromWhere": "省内",
-                        "backTime": "2020-02-02 17:37",
-                        "backType": "自驾",
-                        "carNum": "鲁fb7l21",
-                        "wayCity": "淄博临淄区",
-                        "createTime": "2020-02-11 11:40",
-                        "fillUserId": 1103,
-                        "fillUserName": "测试刘"
-                    }
-                ],
-                "currnets": [
-                    {
-                        "id": 1494,
-                        "memberId": 2476,
-                        "bodyCondition": "正常",
-                        "hasSeek": "是",
-                        "seekHospital": "莱山毓璜顶",
-                        "seekTime": "2020-02-08 08:39",
-                        "controlMeasures": "居家隔离",
-                        "controlTime": "2020-02-05 11:40",
-                        "nextMeasures": "居家隔离",
-                        "createTime": "2020-02-11 11:42",
-                        "fillUserId": 1103,
-                        "fillUserName": "测试刘"
-                    }
-                ],
-                "member": {
-                    "id": 2476,
-                    "area": "莱山区",
-                    "name": "刘晓晨",
-                    "address": "莱山河西城市花园",
-                    "idCard": "370781199312257865",
-                    "phoneNum": "17862886396",
-                    "age": 26,
-                    "gender": "男",
-                    "nativePlace": "山东潍坊",
-                    "baseInfo": "正常",
-                    "createTime": "2020-02-11 11:39",
-                    "fillUserId": 1103,
-                    "fillUserName": "测试刘"
-                },
-                "touch": [
-                    {
-                        "id": 1128,
-                        "memberId": 2476,
-                        "isTouchSuspect": "是",
-                        "suspectName": "测试1",
-                        "suspectIdCard": "838288281873322",
-                        "suspectTime": "2020-02-01 11:38",
-                        "suspectPoint": "临淄博临淄区",
-                        "isTouchIntimate": "是",
-                        "intimateName": "测试2",
-                        "intimateIdCard": "就是就是锦江大酒店",
-                        "intimateTime": "2020-01-01 11:39",
-                        "intimatePoint": "青州市公安局",
-                        "isTouchInfector": "否",
-                        "infectorName": "测试3",
-                        "infectorIdCard": "这孩子就是就是就是",
-                        "infectorTime": "2020-02-09 11:39",
-                        "infectorPoint": "莱山河西走廊",
-                        "createTime": "2020-02-11 11:41",
-                        "fillUserId": 1103,
-                        "fillUserName": "测试刘"
-                    }
-                ]
-            }
+            detailData:{
+                "batchNumber": "string",
+                "city": "string",
+                "controlMeasure": "string",
+                "controlPerson": "string",
+                "controlTelephone": "string",
+                "dateArrive": "2020-02-13T07:25:28.927Z",
+                "dateConvertConfirm": "2020-02-13T07:25:28.927Z",
+                "dateConvertSuspect": "2020-02-13T07:25:28.927Z",
+                "dateLeftPass": "2020-02-13T07:25:28.927Z",
+                "dateRelease": "2020-02-13T07:25:28.927Z",
+                "districts": "string",
+                "dutyPolice": "string",
+                "dutyPoliceTelephone": "string",
+                "id": 0,
+                "idCard": "string",
+                "isCloser": "string",
+                "isFromOtherProvince": "string",
+                "isSymptom": "string",
+                "leftPlace": "string",
+                "regDate": "2020-02-13T07:25:28.928Z",
+                "relationSuspector": "string",
+                "residenceAddress": "string",
+                "residenceType": "string",
+                "routeDetail": "string",
+                "suspectorIdcard": "string",
+                "suspectorName": "string",
+                "telephone": "string",
+                "temperature": "string",
+                "timeLeftShangdong": "2020-02-13T07:25:28.928Z",
+                "touchDate": "2020-02-13T07:25:28.928Z",
+                "typeArrvie": "string"
+            },
         }
     }
 
@@ -106,22 +66,20 @@ class CheckRecordDetail extends PureComponent {
         let self = this;
         //验证是否刷新页面
         T.auth.returnSpecialMainPage(location, '/checkRecord');
+        // console.log('location',location["params"]);
         if (location.hasOwnProperty("params") && location["params"].hasOwnProperty("data")) {
             new Promise((resolve, reject) => {
                 dispatch({
-                    type: 'checkRecord/fetchMemberInfoAction',
+                    type: 'checkRecord/fetchDetailInfoAction',
                     id: location["params"]["data"]["id"],
                     resolve,
                     reject,
                 });
             }).then(response => {
-                const {currnets, member, touch, activities} = response.data;
+                // const {currnets, member, touch, activities} = response.data;
                 if (response.code === 0) {
                     self.setState({
-                        activities: T.lodash.isUndefined(activities[0]) ? {} : activities[0],
-                        currentInfo: T.lodash.isUndefined(currnets[0]) ? {} : currnets[0],
-                        member,
-                        touch: T.lodash.isUndefined(touch[0]) ? {} : touch[0],
+                        detailData: response.data,
                     })
                 } else {
                     T.prompt.error(response.msg);
@@ -137,104 +95,84 @@ class CheckRecordDetail extends PureComponent {
             currentInfo,
             member,
             touch,
+            detailData
         } = this.state;
         const breadcrumbDetail = [
             {
                 linkTo: '/checkRecord',
-                name: '摸排记录查询',
+                name: '随访人员记录',
             },
             {
-                name: '疫情防控调查详情查看',
+                name: '随访人员详情界面',
             },
         ];
+
         return (
             <PageHeaderWrapper
-                title={"疫情防控调查详情查看"}
+                title={"随访人员详情界面"}
                 isSpecialBreadcrumb={true}
                 breadcrumbName={<CustomBreadcrumb dataSource={breadcrumbDetail}/>}
             >
                 <div>
                     <div className={styles.detailItem}>
                         <div className={styles.detailTitleName}>
-                            人员基本信息
+                            基本信息
                         </div>
                         <Card
                             style={{marginBottom: 20}}
                             loading={fetchStatus}
                         >
                             <Row className={styles.detailTitle}>
-                                <Col span={6}>
-                                    <span>县市区：</span>
-                                    <span>
-                                        {
-                                            member.hasOwnProperty('area') ? member.area : '---'
-                                        }
-                                    </span>
-                                </Col>
                                 <Col span={6} className={styles.detailBtns}>
                                     <span>姓名：</span>
                                     <span>
                                         {
-                                            member.hasOwnProperty('name') ? member.name : '---'
+                                            detailData.hasOwnProperty('name') ? detailData.name : '---'
                                         }
                                     </span>
                                 </Col>
                                 <Col span={6}>
-                                    <span>年龄：</span>
+                                    <span>身份证号：</span>
                                     <span>
                                         {
-                                            member.hasOwnProperty('age') ? member.age : '---'
+                                            detailData.hasOwnProperty('idCard') ? detailData.idCard : '---'
                                         }
                                     </span>
                                 </Col>
                                 <Col span={6}>
-                                    <span>性别：</span>
+                                    <span>手机号：</span>
                                     <span>
                                         {
-                                            member.hasOwnProperty('gender') ? member.gender : '---'
+                                            detailData.hasOwnProperty('telephone') ? detailData.telephone : '---'
+                                        }
+                                    </span>
+                                </Col>
+                                <Col span={6}>
+                                    <span>居住类型：</span>
+                                    <span>
+                                        {
+                                            detailData.hasOwnProperty('residenceType') ? detailData.residenceType : '---'
                                         }
                                     </span>
                                 </Col>
                             </Row>
                             <Row className={styles.detailTitle}>
-                                <Col span={6}>
-                                    <span>籍贯：</span>
-                                    <span>
-                                        {
-                                            member.hasOwnProperty('nativePlace') ? member.nativePlace : '---'
-                                        }
-                                    </span>
-                                </Col>
                                 <Col span={6} className={styles.detailBtns}>
-                                    <span>住址：</span>
+                                    <span>当前居住地址：</span>
                                     <span>
-                                        {member.hasOwnProperty('address') ? member.address : '---'}
+                                        {detailData.hasOwnProperty('residenceAddress') ? detailData.residenceAddress : '---'}
                                     </span>
                                 </Col>
                                 <Col span={6}>
-                                    <span>身份证号码：</span>
+                                    <span>登记日期：</span>
                                     <span>
-                                        {member.hasOwnProperty('idCard') ? member.idCard : '---'}
-                                    </span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>联系电话：</span>
-                                    <span>
-                                        {member.hasOwnProperty('phoneNum') ? member.phoneNum : '---'}
-                                    </span>
-                                </Col>
-                            </Row>
-                            <Row className={styles.detailTitle}>
-                                <Col span={6}>
-                                    <span>被调查人基本情况：</span>
-                                    <span>
-                                        {member.hasOwnProperty('baseInfo') ? member.baseInfo : '---'}
+                                        {detailData.hasOwnProperty('regDate') ?detailData.regDate===null?'': T.helper.dateFormat(detailData.regDate,'YYYY-MM-DD') : '---'}
                                     </span>
                                 </Col>
                             </Row>
                         </Card>
                         <div className={styles.detailTitleName}>
-                            人员活动信息
+                            活动信息
                         </div>
                         <Card
                             style={{marginBottom: 20}}
@@ -242,41 +180,53 @@ class CheckRecordDetail extends PureComponent {
                         >
                             <Row className={styles.detailTitle}>
                                 <Col span={6}>
-                                    <span>从何地来烟(返烟)：</span>
+                                    <span>离开（经过）湖北日期：</span>
                                     <span>
-                                        {activities.hasOwnProperty('backFromWhere') ? activities.backFromWhere : '---'}
+                                        {detailData.hasOwnProperty('dateLeftPass') ? detailData.dateLeftPass===null?'': T.helper.dateFormat(detailData.dateLeftPass,'YYYY-MM-DD') : '---'}
+                                    </span>
+                                </Col>
+                                <Col span={6}>
+                                    <span>离开湖北地点：</span>
+                                    <span>
+                                        {detailData.hasOwnProperty('leftPlace') ? detailData.leftPlace===null?'':detailData.leftPlace : '---'}
                                     </span>
                                 </Col>
                                 <Col span={6} className={styles.detailBtns}>
-                                    <span>来烟(返烟)时间：</span>
+                                    <span>到达本地日期：</span>
                                     <span>
-                                        {activities.hasOwnProperty('backTime') ? activities.backTime : '---'}
+                                        {detailData.hasOwnProperty('dateArrive') ? detailData.dateArrive===null?'':T.helper.dateFormat(detailData.dateArrive,'YYYY-MM-DD') : '---'}
                                     </span>
                                 </Col>
                                 <Col span={6}>
-                                    <span>来烟(返烟)方式：</span>
+                                    <span>来鲁方式：</span>
                                     <span>
-                                        {activities.hasOwnProperty('backType') ? activities.backType : '---'}
-                                    </span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>航班/车次/船次/车牌号：</span>
-                                    <span>
-                                        {activities.hasOwnProperty('carNum') ? activities.carNum : '---'}
+                                        {detailData.hasOwnProperty('typeArrvie') ? detailData.typeArrvie : '---'}
                                     </span>
                                 </Col>
                             </Row>
                             <Row className={styles.detailTitle}>
                                 <Col span={6}>
-                                    <span>期间还到过哪些城市：</span>
+                                    <span>是否从外省反乡：</span>
                                     <span>
-                                        {activities.hasOwnProperty('wayCity') ? activities.wayCity : '---'}
+                                        {detailData.hasOwnProperty('isFromOtherProvince') ? detailData.isFromOtherProvince : '---'}
+                                    </span>
+                                </Col>
+                                <Col span={6}>
+                                    <span>离开山东时间：</span>
+                                    <span>
+                                        {detailData.hasOwnProperty('timeLeftShangdong') ? detailData.timeLeftShangdong===null?'':T.helper.dateFormat(detailData.timeLeftShangdong,'YYYY-MM-DD') : '---'}
+                                    </span>
+                                </Col>
+                                <Col span={6}>
+                                    <span>行程详情：</span>
+                                    <span>
+                                        {detailData.hasOwnProperty('routeDetail') ? detailData.routeDetail : '---'}
                                     </span>
                                 </Col>
                             </Row>
                         </Card>
                         <div className={styles.detailTitleName}>
-                            人员接触信息
+                            防控信息
                         </div>
                         <Card
                             style={{marginBottom: 20}}
@@ -284,172 +234,116 @@ class CheckRecordDetail extends PureComponent {
                         >
                             <Row className={styles.detailTitle}>
                                 <Col span={6}>
-                                    <span>是否与确诊、疑似病例密切接触过：</span>
+                                    <span>体温：</span>
                                     <span>
-                                        {touch.hasOwnProperty('isTouchSuspect') ? touch.isTouchSuspect : '---'}
-                                    </span>
-                                </Col>
-                            </Row>
-                            <Row className={styles.detailTitle}>
-                                <Col span={6}>
-                                    <span>接触者姓名：</span>
-                                    <span>
-                                        {touch.hasOwnProperty('suspectName') ? touch.suspectName : '---'}
+                                        {detailData.hasOwnProperty('temperature') ? detailData.temperature : '---'}
                                     </span>
                                 </Col>
                                 <Col span={6}>
-                                    <span>接触者身份证号：</span>
+                                    <span>有无咳嗽、胸闷等症状：</span>
                                     <span>
-                                        {touch.hasOwnProperty('suspectIdCard') ? touch.suspectIdCard : '---'}
+                                        {detailData.hasOwnProperty('isSymptom') ? detailData.isSymptom : '---'}
+                                    </span>
+                                </Col>
+                                <Col span={6}>
+                                    <span>防控措施：</span>
+                                    <span>
+                                        {detailData.hasOwnProperty('controlMeasure') ? detailData.controlMeasure : '---'}
                                     </span>
                                 </Col>
                                 <Col span={6} className={styles.detailBtns}>
-                                    <span>接触时间：</span>
+                                    <span>是否密切接触者：</span>
                                     <span>
-                                        {touch.hasOwnProperty('suspectTime') ? touch.suspectTime : '---'}
-                                    </span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>接触地点：</span>
-                                    <span>
-                                        {touch.hasOwnProperty('suspectPoint') ? touch.suspectPoint : '---'}
-                                    </span>
-                                </Col>
-                            </Row>
-                            <Row className={styles.detailTitle}>
-                                <Col span={6}>
-                                    <span>是否与密切接触者共同生活、工作、学习、聚会过：</span>
-                                    <span>
-                                        {touch.hasOwnProperty('isTouchIntimate') ? touch.isTouchIntimate : '---'}
-                                    </span>
-                                </Col>
-                            </Row>
-                            <Row className={styles.detailTitle}>
-                                <Col span={6}>
-                                    <span>接触者姓名：</span>
-                                    <span>
-                                        {touch.hasOwnProperty('intimateName') ? touch.intimateName : '---'}
-                                    </span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>接触者身份证号：</span>
-                                    <span>
-                                        {touch.hasOwnProperty('intimateIdCard') ? touch.intimateIdCard : '---'}
-                                    </span>
-                                </Col>
-                                <Col span={6} className={styles.detailBtns}>
-                                    <span>接触时间：</span>
-                                    <span>
-                                        {touch.hasOwnProperty('intimateTime') ? touch.intimateTime : '---'}
-                                    </span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>接触地点：</span>
-                                    <span>
-                                        {touch.hasOwnProperty('intimatePoint') ? touch.intimatePoint : '---'}
-                                    </span>
-                                </Col>
-                            </Row>
-                            <Row className={styles.detailTitle}>
-                                <Col span={6}>
-                                    <span>是否与重点疫区人员接触过：</span>
-                                    <span>
-                                        {touch.hasOwnProperty('isTouchInfector') ? touch.isTouchInfector : '---'}
-                                    </span>
-                                </Col>
-                            </Row>
-                            <Row className={styles.detailTitle}>
-                                <Col span={6}>
-                                    <span>接触者姓名：</span>
-                                    <span>
-                                        {touch.hasOwnProperty('infectorName') ? touch.infectorName : '---'}
-                                    </span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>接触者身份证号：</span>
-                                    <span>
-                                        {touch.hasOwnProperty('infectorIdCard') ? touch.infectorIdCard : '---'}
-                                    </span>
-                                </Col>
-                                <Col span={6} className={styles.detailBtns}>
-                                    <span>接触时间：</span>
-                                    <span>
-                                        {touch.hasOwnProperty('infectorTime') ? touch.infectorTime : '---'}
-                                    </span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>接触地点：</span>
-                                    <span>
-                                        {touch.hasOwnProperty('infectorPoint') ? touch.infectorPoint : '---'}
-                                    </span>
-                                </Col>
-                            </Row>
-                        </Card>
-                        <div className={styles.detailTitleName}>
-                            人员当前状态
-                        </div>
-                        <Card
-                            style={{marginBottom: 20}}
-                            loading={fetchStatus}
-                        >
-                            <Row className={styles.detailTitle}>
-                                <Col span={6}>
-                                    <span>身体状况：</span>
-                                    <span>
-                                        {currentInfo.hasOwnProperty('bodyCondition') ? currentInfo.bodyCondition : '---'}
-                                    </span>
-                                </Col>
-                                <Col span={6} className={styles.detailBtns}>
-                                    <span>是否就医：</span>
-                                    <span>
-                                        {currentInfo.hasOwnProperty('hasSeek') ? currentInfo.hasSeek : '---'}
-                                    </span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>就医医院：</span>
-                                    <span>
-                                        {currentInfo.hasOwnProperty('seekHospital') ? currentInfo.seekHospital : '---'}
-                                    </span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>就医时间：</span>
-                                    <span>
-                                        {currentInfo.hasOwnProperty('seekTime') ? currentInfo.seekTime : '---'}
-                                    </span>
-                                </Col>
-                            </Row>
-                            <Row className={styles.detailTitle}>
-                                <Col span={6}>
-                                    <span>是否采取过防护措施：</span>
-                                    <span>
-                                        {currentInfo.hasOwnProperty('controlMeasures') ? currentInfo.controlMeasures : '---'}
-                                    </span>
-                                </Col>
-                                <Col span={12} className={styles.detailBtns}>
-                                    <span>什么时间内采取的防护措施：</span>
-                                    <span>
-                                        {currentInfo.hasOwnProperty('controlTime') ? currentInfo.controlTime : '---'}
-                                    </span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>下步拟采取措施：</span>
-                                    <span>
-                                        {currentInfo.hasOwnProperty('nextMeasures') ? currentInfo.nextMeasures : '---'}
+                                        {detailData.hasOwnProperty('isCloser') ? detailData.isCloser : '---'}
                                     </span>
                                 </Col>
 
                             </Row>
+
                             <Row className={styles.detailTitle}>
                                 <Col span={6}>
-                                    <span>填报日期：</span>
+                                    <span>与确诊（疑似）病例关系</span>
                                     <span>
-                                        {currentInfo.hasOwnProperty('createTime') ? currentInfo.createTime : '---'}
+                                        {detailData.hasOwnProperty('relationSuspector') ? detailData.relationSuspector : '---'}
                                     </span>
                                 </Col>
                                 <Col span={6}>
-                                    <span>摸排人：</span>
+                                    <span>确诊（疑似）病例人员姓名：</span>
                                     <span>
-                                        {currentInfo.hasOwnProperty('fillUserName') ? currentInfo.fillUserName : '---'}
+                                        {detailData.hasOwnProperty('suspectorName') ? detailData.suspectorName : '---'}
+                                    </span>
+                                </Col>
+                                <Col span={6}>
+                                    <span>确诊（疑似）病例身份证号：</span>
+                                    <span>
+                                        {detailData.hasOwnProperty('suspectorIdcard') ? detailData.suspectorIdcard : '---'}
+                                    </span>
+                                </Col>
+                                <Col span={6} className={styles.detailBtns}>
+                                    <span>批次号：</span>
+                                    <span>
+                                        {detailData.hasOwnProperty('batchNumber') ? detailData.batchNumber : '---'}
+                                    </span>
+                                </Col>
+                            </Row>
+
+                            <Row className={styles.detailTitle}>
+                                <Col span={6}>
+                                    <span>解除隔离日期：</span>
+                                    <span>
+                                        {detailData.hasOwnProperty('dateRelease') ? detailData.dateRelease===null?'':T.helper.dateFormat(detailData.dateRelease,'YYYY-MM-DD') : '---'}
+                                    </span>
+                                </Col>
+                                <Col span={6}>
+                                    <span>接触日期：</span>
+                                    <span>
+                                        {detailData.hasOwnProperty('touchDate') ? detailData.touchDate===null?'':T.helper.dateFormat(detailData.touchDate,'YYYY-MM-DD') : '---'}
+                                    </span>
+                                </Col>
+                                <Col span={6} className={styles.detailBtns}>
+                                    <span>转为疑似日期：</span>
+                                    <span>
+                                        {detailData.hasOwnProperty('dateConvertSuspect') ? detailData.dateConvertSuspect===null?'':T.helper.dateFormat(detailData.dateConvertSuspect,'YYYY-MM-DD') : '---'}
+                                    </span>
+                                </Col>
+                                <Col span={6}>
+                                    <span>转为确诊日期：</span>
+                                    <span>
+                                        {detailData.hasOwnProperty('dateConvertConfirm') ? detailData.dateConvertConfirm===null?'':T.helper.dateFormat(detailData.dateConvertConfirm,'YYYY-MM-DD') : '---'}
+                                    </span>
+                                </Col>
+                            </Row>
+                        </Card>
+                        <div className={styles.detailTitleName}>
+                            监督人员信息
+                        </div>
+                        <Card
+                            style={{marginBottom: 20}}
+                            loading={fetchStatus}
+                        >
+                            <Row className={styles.detailTitle}>
+                                <Col span={6}>
+                                    <span>社区防控联系人：</span>
+                                    <span>
+                                        {detailData.hasOwnProperty('controlPerson') ? detailData.controlPerson : '---'}
+                                    </span>
+                                </Col>
+                                <Col span={6} className={styles.detailBtns}>
+                                    <span>社区防控联系人电话：</span>
+                                    <span>
+                                        {detailData.hasOwnProperty('controlTelephone') ? detailData.controlTelephone : '---'}
+                                    </span>
+                                </Col>
+                                <Col span={6}>
+                                    <span>责任民警：</span>
+                                    <span>
+                                        {detailData.hasOwnProperty('dutyPolice') ? detailData.dutyPolice : '---'}
+                                    </span>
+                                </Col>
+                                <Col span={6}>
+                                    <span>责任民警电话：</span>
+                                    <span>
+                                        {detailData.hasOwnProperty('dutyPoliceTelephone') ? detailData.dutyPoliceTelephone : '---'}
                                     </span>
                                 </Col>
                             </Row>

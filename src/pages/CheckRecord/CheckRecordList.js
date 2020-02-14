@@ -60,129 +60,6 @@ class CheckRecordList extends PureComponent {
         selectedArea: '烟台市',//树节点默认选中的地区名字，用来后台获取参数
         baseInfoSelect: [],     //被调查人基本情况
         bodyConditionSelect: [],     //身体状况
-        treeData: [
-            {
-                children: [
-                    {
-                        id: "GA001",
-                        key: "GA001",
-                        name: "芝罘区",
-                        pId: "GA",
-                        title: "芝罘区",
-                    },
-                    {
-                        id: "GA002",
-                        key: "GA002",
-                        name: "福山区",
-                        pId: "GA",
-                        title: "福山区",
-                    },
-                    {
-                        id: "GA003",
-                        key: "GA003",
-                        name: "莱山区",
-                        pId: "GA",
-                        title: "莱山区",
-                    },
-                    {
-                        id: "GA004",
-                        key: "GA004",
-                        name: "牟平区",
-                        pId: "GA",
-                        title: "牟平区",
-                    },
-                    {
-                        id: "GA005",
-                        key: "GA005",
-                        name: "海阳市",
-                        pId: "GA",
-                        title: "海阳市",
-                    },
-                    {
-                        id: "GA006",
-                        key: "GA006",
-                        name: "莱阳市",
-                        pId: "GA",
-                        title: "莱阳市",
-                    },
-                    {
-                        id: "GA007",
-                        key: "GA007",
-                        name: "栖霞市",
-                        pId: "GA",
-                        title: "栖霞市",
-                    },
-                    {
-                        id: "GA008",
-                        key: "GA008",
-                        name: "蓬莱市",
-                        pId: "GA",
-                        title: "蓬莱市",
-                    },
-                    {
-                        id: "GA009",
-                        key: "GA009",
-                        name: "长岛县",
-                        pId: "GA",
-                        title: "长岛县",
-                    },
-                    {
-                        id: "GA010",
-                        key: "GA010",
-                        name: "龙口市",
-                        pId: "GA",
-                        title: "龙口市",
-                    },
-                    {
-                        id: "GA011",
-                        key: "GA011",
-                        name: "招远市",
-                        pId: "GA",
-                        title: "招远市",
-                    },
-                    {
-                        id: "GA012",
-                        key: "GA012",
-                        name: "莱州市",
-                        pId: "GA",
-                        title: "莱州市",
-                    },
-                    {
-                        id: "GA013",
-                        key: "GA013",
-                        name: "开发区",
-                        pId: "GA",
-                        title: "开发区",
-                    },
-                    {
-                        id: "GA014",
-                        key: "GA014",
-                        name: "高新区",
-                        pId: "GA",
-                        title: "高新区",
-                    },
-                    {
-                        id: "GA015",
-                        key: "GA015",
-                        name: "保税港区",
-                        pId: "GA",
-                        title: "保税港区",
-                    },
-                    {
-                        id: "GA016",
-                        key: "GA016",
-                        name: "昆嵛山保护区",
-                        pId: "GA",
-                        title: "昆嵛山保护区",
-                    },
-                ],
-                id: "GA",
-                key: "GA",
-                name: "烟台市",
-                pId: "0",
-                title: "烟台市",
-            }
-        ],
         total: 0,
         members: [],
         fakeData: {
@@ -364,52 +241,52 @@ class CheckRecordList extends PureComponent {
         let self = this;
 
         //获取被调查人基本情况
-        new Promise((resolve, reject) => {
-            dispatch({
-                type: 'checkRecord/fetchSelectInfoAction',
-                params: {
-                    type: 'BASE_INFO'
-                },
-                resolve,
-                reject,
-            });
-        }).then(response => {
-            if (response.code === 0) {
-                response.data.unshift({
-                    name: "全部",
-                    value: "全部"
-                });
-                self.setState({
-                    baseInfoSelect: response.data
-                })
-            } else {
-                T.prompt.error(response.msg);
-            }
-        });
+        /* new Promise((resolve, reject) => {
+             dispatch({
+                 type: 'checkRecord/fetchSelectInfoAction',
+                 params: {
+                     type: 'BASE_INFO'
+                 },
+                 resolve,
+                 reject,
+             });
+         }).then(response => {
+             if (response.code === 0) {
+                 response.data.unshift({
+                     name: "全部",
+                     value: "全部"
+                 });
+                 self.setState({
+                     baseInfoSelect: response.data
+                 })
+             } else {
+                 T.prompt.error(response.msg);
+             }
+         });*/
 
         //获取身体情况列表
-        new Promise((resolve, reject) => {
-            dispatch({
-                type: 'checkRecord/fetchSelectInfoAction',
-                params: {
-                    type: 'BODY_CONDITION'
-                },
-                resolve,
-                reject,
-            });
-        }).then(response => {
-            if (response.code === 0) {
-                response.data.unshift({
-                    name: "全部",
-                    value: "全部"
-                });
-                self.setState({
-                    bodyConditionSelect: response.data
-                });
-            } else {
-                T.prompt.error(response.msg);
-            }
-        });
+        /* new Promise((resolve, reject) => {
+             dispatch({
+                 type: 'checkRecord/fetchSelectInfoAction',
+                 params: {
+                     type: 'BODY_CONDITION'
+                 },
+                 resolve,
+                 reject,
+             });
+         }).then(response => {
+             if (response.code === 0) {
+                 response.data.unshift({
+                     name: "全部",
+                     value: "全部"
+                 });
+                 self.setState({
+                     bodyConditionSelect: response.data
+                 });
+             } else {
+                 T.prompt.error(response.msg);
+             }
+         });*/
         this.fetchDataList();
     }
 
@@ -422,28 +299,21 @@ class CheckRecordList extends PureComponent {
         form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 //地区分类
-                let categoryCode = '';
-                treeData.map(val => {
-                    if (values.resourceType === val.name) {
-                        categoryCode = val.id;
-                    }
-                });
-                let loginInfo = T.auth.getLoginInfo();
+                // let loginInfo = T.auth.getLoginInfo();
 
                 let params = {
                     current: currentPage,
                     size: EnumDataSyncPageInfo.defaultPageSize,
-                    startTime: T.lodash.isUndefined(values.startDate) ? '' : T.helper.dateFormat(values.startDate,'YYYY-MM-DD'),      //开始时间
-                    endTime: T.lodash.isUndefined(values.endDate) ? '' : T.helper.dateFormat(values.endDate,'YYYY-MM-DD'),        //结束时间
-                    area: T.auth.isAdmin() ? selectedArea === "烟台市" ? '' : selectedArea : loginInfo.data.area,           //县市区(烟台市传空)
+                    startTime: T.lodash.isUndefined(values.startDate) ? '' : T.helper.dateFormat(values.startDate, 'YYYY-MM-DD'),      //开始时间
+                    endTime: T.lodash.isUndefined(values.endDate) ? '' : T.helper.dateFormat(values.endDate, 'YYYY-MM-DD'),        //结束时间
+                    // area: T.auth.isAdmin() ? selectedArea === "烟台市" ? '' : selectedArea : loginInfo.data.area,           //县市区(烟台市传空)
                     name: T.lodash.isUndefined(values.person) ? '' : values.person,           //被调查人姓名
-                    gender: T.lodash.isUndefined(values.sex) ? '' : values.sex === 'all' ? '' : values.sex,         //性别
-                    // idCard: "",         //身份证号
-                    baseInfo: T.lodash.isUndefined(values.base) ? '' : values.base === '全部' ? '' : values.base,         //被调查人基本情况
-                    bodyCondition: T.lodash.isUndefined(values.status) ? '' : values.status === '全部' ? '' : values.status,         //身体状况
-                    fillUserName: T.lodash.isUndefined(values.head) ? '' : values.head,   //摸排人
-                    fillUserId: loginInfo.data.static_auth === 0 ? loginInfo.data.id : ''   //摸排人id
-                };
+                    idCard: T.lodash.isUndefined(values.idCard) ? '' : values.idCard,
+                    isSymptom: T.lodash.isUndefined(values.isSymptom) ? '' : values.isSymptom,
+                    isCloser: T.lodash.isUndefined(values.isCloser) ? '' : values.isCloser,
+                    dutyPolice: T.lodash.isUndefined(values.dutyPolice) ? '' : values.dutyPolice,
+                    // fillUserId: loginInfo.data.static_auth === 0 ? loginInfo.data.id : ''   //摸排人id
+                }
                 new Promise((resolve, reject) => {
                     dispatch({
                         type: 'checkRecord/fetchCheckRecordListAction',
@@ -453,17 +323,17 @@ class CheckRecordList extends PureComponent {
                     });
                 }).then(response => {
                     if (response.code === 0) {
-                        const { total, members } = response.data;
-                        let endData = members.map( (val,idx) => {
+                        const {total, list} = response.data;
+                        let endData = list.map((val, idx) => {
                             return {
                                 ...val,
-                                key: (currentPage-1) * 10 + idx + 1,
-                                index: (currentPage-1) * 10 + idx + 1,
+                                key: (currentPage - 1) * 10 + idx + 1,
+                                index: (currentPage - 1) * 10 + idx + 1,
                             }
                         });
                         self.setState({
                             total,
-                            members: endData,
+                            tableData: endData,
                         })
                     } else {
                         T.prompt.error(response.msg);
@@ -480,50 +350,6 @@ class CheckRecordList extends PureComponent {
         this.fetchDataList();
     };
 
-    //树选择
-    onSelect = (keys, event) => {
-        //点击选中事件，属性可以打印查看
-        const eventData = event.node.props;
-        // this.props.form.setFieldsValue({
-        //     resourceType: eventData.name
-        // });
-        let self = this;
-        this.setState({
-            selectedKey: keys[0],
-            selectedArea: eventData.name
-        }, () => {
-            self.fetchDataList()
-        });
-    };
-
-    //渲染树节点
-    renderTreeNodes = data => {
-        return data.map(item => {
-            if (item.children) {
-                return (
-                    <TreeNode {...item} dataRef={item} title={item.name} key={item.id}>
-                        {this.renderTreeNodes(item.children)}
-                    </TreeNode>
-                );
-            }
-            return <TreeNode {...item} dataRef={item} title={item.name} key={item.id} isLeaf/>;
-        });
-    };
-
-    //渲染select树节点
-    renderSelectTreeNodes = data => {
-        return data.map(item => {
-            if (item.children) {
-                return (
-                    <TreeSelect.TreeNode {...item} dataRef={item} title={item.name} value={item.name} key={item.id}>
-                        {this.renderSelectTreeNodes(item.children)}
-                    </TreeSelect.TreeNode>
-                );
-            }
-            return <TreeSelect.TreeNode {...item} dataRef={item} title={item.name} value={item.name} key={item.id}
-                                        isLeaf/>;
-        });
-    };
 
     //查询
     searchDataSource = (e) => {
@@ -561,40 +387,49 @@ class CheckRecordList extends PureComponent {
             },
         });
     };
+    //编辑详情
+    editMetadataManage = (e, key) => {
+        // /addInfo
+        router.push({
+            pathname: '/checkRecord/addRecordDetail',
+            params: {
+                isRouterPush: true,
+                data: key
+            },
+        });
 
-    //树选择
-    onTreeChange = (e, node) => {
-        this.setState({
-            selectedKey: node.props.id,
+    };
+
+    //新增功能
+    addInfoBtn = () => {
+        router.push({
+            pathname: '/checkRecord/addRecordDetail',
+            params: {
+                isRouterPush: true,
+            },
         });
     };
-
-    //查询-数据库类型 渲染下拉选项
-    renderSelectOption = (selectDataSource) => {
-        let arrKeys = T.lodash.keys(selectDataSource);
-        return (
-            arrKeys.map(item => {
-                return (
-                    <Option key={item} value={item}>
-                        {EnumDataSourceStatus[item]["label"]}
-                    </Option>
-                )
-            })
-        )
+    //删除功能
+    removeData = (id) => {
+        const {dispatch} = this.props;
+        let self = this;
+        new Promise((resolve, reject) => {
+            dispatch({
+                type: 'checkRecord/deleteInfoAction',
+                id,
+                resolve,
+                reject,
+            });
+        }).then(response => {
+            if (response.code === 0) {
+                T.prompt.success("提交成功");
+                self.fetchDataList();
+            } else {
+                T.prompt.error(response.msg);
+            }
+        })
     };
 
-    //渲染不同的下拉框
-    renderSelect = (dataSource) => {
-        return (
-            dataSource.map((item,idx) => {
-                return (
-                    <Option key={item.value} value={item.name}>
-                        {item.name}
-                    </Option>
-                )
-            })
-        )
-    };
 
     render() {
         const {
@@ -625,50 +460,57 @@ class CheckRecordList extends PureComponent {
                 key: 'index',
             },
             {
-                title: '县市区',
-                dataIndex: 'area',
-                key: 'area',
-            },
-            {
                 title: '姓名',
                 dataIndex: 'name',
                 key: 'name',
             },
             {
-                title: '年龄',
-                dataIndex: 'age',
-                key: 'age',
-            },
-            {
-                title: '性别',
-                dataIndex: 'gender',
-                key: 'gender',
-            },
-            {
-                title: '填报日期',
-                dataIndex: 'createTime',
-                key: 'createTime',
-            },
-            {
-                title: '身份证号',
+                title: '证件号码',
                 dataIndex: 'idCard',
                 key: 'idCard',
             },
+            {
+                title: '手机号',
+                dataIndex: 'telephone',
+                key: 'telephone',
+            },
 
             {
-                title: '被调查人基本情况',
-                dataIndex: 'baseInfo',
-                key: 'baseInfo',
+                title: '到达本市日期',
+                dataIndex: 'createTime',
+                key: 'createTime',
+                render: text => <span >{T.helper.dateFormat(text,'YYYY-MM-DD')}</span>
             },
-            // {
-            //     title: '身体状况',
-            //     dataIndex: 'status',
-            //     key: 'status',
-            // },
             {
-                title: '摸排人',
-                dataIndex: 'fillUserName',
-                key: 'fillUserName',
+                title: '来鲁方式',
+                dataIndex: 'typeArrvie',
+                key: 'typeArrvie',
+            },
+            {
+                title: '是否从外省返乡',
+                dataIndex: 'isFromOtherProvince',
+                key: 'isFromOtherProvince',
+            },
+            {
+                title: '有无咳嗽、胸闷等症状',
+                dataIndex: 'isSymptom',
+                key: 'isSymptom',
+            },
+            {
+                title: '责任民警',
+                dataIndex: 'dutyPolice',
+                key: 'dutyPolice',
+            },
+            {
+                title: '是否密切接触者',
+                dataIndex: 'isCloser',
+                key: 'isCloser',
+            },
+            {
+                title: '登记日期',
+                dataIndex: 'regDate',
+                key: 'regDate',
+                render: text => <span >{T.helper.dateFormat(text,'YYYY-MM-DD')}</span>
             },
             {
                 title: '操作',
@@ -676,7 +518,15 @@ class CheckRecordList extends PureComponent {
                 // width: '15%',
                 render: (text, record) => {
                     return (
-                        <span><a onClick={e => this.showMetadataManage(e, record)}>查看详情</a></span>
+                        <span>
+                            <a onClick={e => this.editMetadataManage(e, record)}>编辑</a>
+                            <Divider type="vertical"/>
+                            <a onClick={e => this.showMetadataManage(e, record)}>查看</a>
+                            <Divider type="vertical"/>
+                            <Popconfirm title="是否要删除此行？" onConfirm={() => this.removeData(record.id)}>
+                                <a>删除</a>
+                            </Popconfirm>
+                        </span>
                     );
                 },
             }
@@ -694,147 +544,105 @@ class CheckRecordList extends PureComponent {
             }),
         };
         return (
-            <PageHeaderWrapper title="摸排记录查询">
+            <PageHeaderWrapper
+                title="随访人员记录"
+                isSpecialBreadcrumb={true}
+            >
                 <Row gutter={24}>
-                    {
-                        T.auth.isAdmin() ?
-                            <Col xl={4} lg={4} md={4} sm={24} xs={24}>
-                                <Card
-                                    title="资源列表"
-                                    bordered={false}
-                                    style={{
-                                        width: '100%',
-                                        height: '100%',
-                                    }}
-                                >
-                                    {
-                                        fetchTreeStatus ? <Spin/> :
-                                            <DirectoryTree
-                                                multiple
-                                                defaultExpandAll={true}
-                                                onSelect={this.onSelect.bind(this)}
-                                                selectedKeys={[selectedKey]}
-                                            >
-                                                {this.renderTreeNodes(treeData)}
-                                            </DirectoryTree>
-                                    }
-                                </Card>
-                            </Col>
-                            :
-                            null
-                    }
-                    <Col xl={T.auth.isAdmin() ? 20: 24} lg={T.auth.isAdmin() ? 20: 24} md={T.auth.isAdmin() ? 20: 24} sm={24} xs={24} className={styles.dataSourceTableList}>
+                    {/*<Col xl={T.auth.isAdmin() ? 19: 24} lg={T.auth.isAdmin() ? 19: 24} md={T.auth.isAdmin() ? 19: 24} sm={24} xs={24} className={styles.dataSourceTableList}>*/}
+                    <Col xl={24} lg={24} md={24} sm={24} xs={24} className={styles.dataSourceTableList}>
                         <Form layout="inline" onSubmit={this.searchDataSource}>
                             <Row className={`${styles.dataSourceTitle} ${styles.tableListForms}`}
                                  style={{marginBottom: 10}}>
                                 <Col xl={6} lg={6} md={6} sm={6} xs={24}>
                                     <Form.Item
-                                        label={<FormattedMessage
-                                            id="checkRecord.resourceList.person.label"/>}
+                                        label='姓名'
                                     >
                                         {getFieldDecorator('person', {})(
                                             <Input
                                                 autoComplete="off"
-                                                placeholder={formatMessage({
-                                                    id: 'checkRecord.resourceList.person.placeholder',
-                                                })}
+                                                placeholder='姓名'
+                                            />
+                                        )}
+                                    </Form.Item>
+                                </Col>
+                                <Col xl={6} lg={6} md={6} sm={6} xs={24}>
+                                    <Form.Item
+                                        label='身份证号'
+                                    >
+                                        {getFieldDecorator('idCard', {})(
+                                            <Input
+                                                autoComplete="off"
+                                                placeholder='身份证号'
                                             />
                                         )}
                                     </Form.Item>
                                 </Col>
                                 <Col xl={6} lg={6} md={6} sm={6} xs={24} style={{textAlign: 'left'}}>
                                     <Form.Item
-                                        label={<FormattedMessage
-                                            id="checkRecord.resourceList.sex.label"/>}
+                                        label='有无咳嗽、胸闷等症状'
                                     >
-                                        {getFieldDecorator('sex', {
-                                            initialValue: "all",
+                                        {getFieldDecorator('symptom', {
+                                            // initialValue: "否",
                                         })(
                                             <Radio.Group onChange={this.onChange}>
-                                                <Radio value={"男"}>男</Radio>
-                                                <Radio value={"女"}>女</Radio>
-                                                <Radio value={"all"}>全部</Radio>
+                                                <Radio value={"有"}>有</Radio>
+                                                <Radio value={"无"}>无</Radio>
                                             </Radio.Group>
                                         )}
                                     </Form.Item>
                                 </Col>
+                                <Col xl={6} lg={6} md={6} sm={6} xs={24} style={{textAlign: 'left'}}>
+                                    <Form.Item
+                                        label='是否密切接触者'
+                                    >
+                                        {getFieldDecorator('contact', {
+                                            // initialValue: "否",
+                                        })(
+                                            <Radio.Group onChange={this.onChange}>
+                                                <Radio value={"是"}>是</Radio>
+                                                <Radio value={"否"}>否</Radio>
+                                            </Radio.Group>
+                                        )}
+                                    </Form.Item>
+                                </Col>
+
+                            </Row>
+                            <Row className={`${styles.dataSourceTitle} ${styles.tableListForms}`}
+                                 style={{marginBottom: 10}}>
                                 <Col xl={6} lg={6} md={6} sm={6} xs={24}>
                                     <Form.Item
-                                        label={<FormattedMessage
-                                            id="checkRecord.resourceList.startDate.label"/>}
+                                        label='开始时间'
                                     >
                                         {getFieldDecorator('startDate', {
-                                            // rules: [{required: true, message: '请选择开始时间！'}],
-                                            // initialValue: T.moment(new Date(new Date(new Date().toLocaleDateString()).getTime()).getTime()),
+                                            // rules: [{required: true, message: '请选择结束时间！'}],
+                                            // initialValue: T.moment(new Date().getTime()),
                                         })(
-                                            <DatePicker/>
+                                            <DatePicker style={{width: '100%'}}/>
                                         )}
                                     </Form.Item>
                                 </Col>
                                 <Col xl={6} lg={6} md={6} sm={6} xs={24}>
                                     <Form.Item
-                                        label={<FormattedMessage
-                                            id="checkRecord.resourceList.endDate.label"/>}
+                                        label='结束时间'
                                     >
                                         {getFieldDecorator('endDate', {
                                             // rules: [{required: true, message: '请选择结束时间！'}],
                                             // initialValue: T.moment(new Date().getTime()),
                                         })(
-                                            <DatePicker/>
+                                            <DatePicker style={{width: '100%'}}/>
                                         )}
                                     </Form.Item>
                                 </Col>
-                            </Row>
-                            <Row className={`${styles.dataSourceTitle} ${styles.tableListForms}`}
-                                 style={{marginBottom: 10}}>
 
                                 <Col xl={6} lg={6} md={6} sm={6} xs={24}>
                                     <Form.Item
-                                        label={<FormattedMessage
-                                            id="checkRecord.resourceList.base.label"/>}
-                                    >
-                                        {getFieldDecorator('base',{
-                                            initialValue: "全部"
-                                        })(
-                                            <Select
-                                                getPopupContainer={triggerNode => triggerNode.parentNode}
-                                            >
-                                                {
-                                                    this.renderSelect(baseInfoSelect)
-                                                }
-                                            </Select>
-                                        )}
-                                    </Form.Item>
-                                </Col>
-                                <Col xl={6} lg={6} md={6} sm={6} xs={24}>
-                                    <Form.Item
-                                        label={<FormattedMessage
-                                            id="checkRecord.resourceList.status.label"/>}
-                                    >
-                                        {getFieldDecorator('status',{
-                                            initialValue: "全部"
-                                        })(
-                                            <Select
-                                                getPopupContainer={triggerNode => triggerNode.parentNode}
-                                            >
-                                                {
-                                                    this.renderSelect(bodyConditionSelect)
-                                                }
-                                            </Select>
-                                        )}
-                                    </Form.Item>
-                                </Col>
-                                <Col xl={6} lg={6} md={6} sm={6} xs={24}>
-                                    <Form.Item
-                                        label={<FormattedMessage
-                                            id="checkRecord.resourceList.head.label"/>}
+                                        label='责任民警'
                                     >
                                         {getFieldDecorator('head', {})(
                                             <Input
                                                 autoComplete="off"
-                                                placeholder={formatMessage({
-                                                    id: 'checkRecord.resourceList.head.placeholder',
-                                                })}
+                                                placeholder='请输入责任民警'
                                             />
                                         )}
                                     </Form.Item>
@@ -842,13 +650,13 @@ class CheckRecordList extends PureComponent {
                                 <Col xl={6} lg={8} md={8} sm={8} xs={24} style={{textAlign: 'left'}}>
                                     <Form.Item className={styles.searchBtnWrapper}>
                                         <Button htmlType="submit" style={{marginRight: 10}}>
-                                            <FormattedMessage id="checkRecord.btn.search"/>
+                                            查询
                                         </Button>
                                         <Button onClick={this.resetDataSource} type="primary" style={{marginRight: 10}}>
-                                            <FormattedMessage id="checkRecord.btn.reset"/>
+                                            重置
                                         </Button>
                                         {/*<Button onClick={this.exportData} type="primary">*/}
-                                            {/*<FormattedMessage id="checkRecord.btn.output"/>*/}
+                                            {/*导出*/}
                                         {/*</Button>*/}
                                     </Form.Item>
                                 </Col>
@@ -856,15 +664,23 @@ class CheckRecordList extends PureComponent {
                         </Form>
                         <Row className={`${styles.dataSourceTitle} ${styles.tableListForms}`}
                              style={{marginBottom: 10}}>
+                            <Button onClick={this.addInfoBtn} type="primary">
+                                新增
+                            </Button>
+                        </Row>
+                        <Row className={`${styles.dataSourceTitle} ${styles.tableListForms}`}
+                             style={{marginBottom: 10}}>
                             检索结果：{total}
                         </Row>
+
                         <Row>
                             <Card bordered={false}>
                                 <Table
                                     columns={columns}
-                                    dataSource={members}
+                                    // dataSource={members}
+                                    dataSource={tableData}
                                     rowSelection={rowSelection}
-                                    loading={fetchCheckRecordListStatus}
+                                    // loading={fetchCheckRecordListStatus}
                                     pagination={{
                                         current: currentPage,
                                         onChange: this.pageChange,

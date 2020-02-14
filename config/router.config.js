@@ -25,7 +25,7 @@ export default [
         Routes: ['src/pages/Authorized'],
         routes: [
             // dashboard
-            {path: '/', redirect: '/jobStatistics', authority: ['admin']},
+            {path: '/', redirect: '/checkRecord', authority: ['admin']},
             /*----------------- 首页 -------------------*/
             // {
             //     path: '/dashboard',
@@ -35,7 +35,7 @@ export default [
             // },
 
             /*----------------- 摸排工作统计 -------------------*/
-            {
+            /*{
                 path: '/jobStatistics',
                 name: 'jobStatistics',
                 icon: 'home',
@@ -46,7 +46,7 @@ export default [
                 path: '/checkRecord/showDetail',
                 component: './CheckRecord/CheckRecordDetail',
                 authority: ['admin']
-            },
+            },*/
 
             /*----------------- 摸排记录查询 -------------------*/
             {
@@ -61,8 +61,13 @@ export default [
                 component: './CheckRecord/CheckRecordDetail',
                 authority: ['admin']
             },
-            /*----------------- 摸排记录查询 -------------------*/
             {
+                path: '/checkRecord/addRecordDetail',
+                component: './CheckRecord/AddRecordDetail',
+                authority: ['admin']
+            },
+            /*----------------- 摸排记录查询 -------------------*/
+           /* {
                 path: '/addInfo',
                 name: 'addInfo',
                 icon: 'home',
@@ -81,7 +86,7 @@ export default [
                 component: './AddInfo/AddInfoDetail',
                 authority: ['user','admin'],
                 // authority: ['user'],
-            },
+            },*/
             /*----------------- 摸排工作统计表 -------------------*/
             // {
             //     path: '/touchStatisticsPage',
