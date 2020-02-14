@@ -32,7 +32,7 @@ const links = [];
 
 const copyright = (
   <Fragment>
-    Copyright <Icon type="copyright" /> 2020 大数据局
+    {/*Copyright <Icon type="copyright" /> 2020 大数据局*/}
   </Fragment>
 );
 
