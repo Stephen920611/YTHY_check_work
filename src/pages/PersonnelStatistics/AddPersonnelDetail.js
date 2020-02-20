@@ -172,7 +172,7 @@ class AddPersonnelDetail extends PureComponent {
                         isFromOtherProvince: T.lodash.isUndefined(data.isFromOtherProvince) ? '' : data.isFromOtherProvince,
                         isSymptom: T.lodash.isUndefined(data.isSymptom) ? '' : data.isSymptom,
                         leftPlace: T.lodash.isUndefined(data.leftPlace) ? '' : data.leftPlace,
-                        // regDate: T.lodash.isUndefined(data.regDate) ? '' : data.regDate === null ?  '' :T.moment(new Date(data.regDate).getTime()),
+                        regDate: T.lodash.isUndefined(data.regDate) ? '' : data.regDate === null ?  '' :T.moment(new Date(data.regDate).getTime()),
                         relationSuspector: T.lodash.isUndefined(data.relationSuspector) ? '' : data.relationSuspector,
                         residenceAddress: T.lodash.isUndefined(data.residenceAddress) ? '' : data.residenceAddress,
                         residenceType: T.lodash.isUndefined(data.residenceType) ? '' : data.residenceType,
