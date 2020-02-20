@@ -477,8 +477,8 @@ class PersonnelStatisticsList extends PureComponent {
 
             {
                 title: '到达本市日期',
-                dataIndex: 'createTime',
-                key: 'createTime',
+                dataIndex: 'dateArrive',
+                key: 'dateArrive',
                 render: text => <span >{T.helper.dateFormat(text,'YYYY-MM-DD')}</span>
             },
             {
