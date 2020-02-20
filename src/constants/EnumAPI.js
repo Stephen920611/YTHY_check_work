@@ -36,35 +36,59 @@ const EnumAPI = {
     | 连-h5-摸排统计页面-相关的API地址
     |----------------------------------------------------------------
     */
-    // fetchStatisticsList: _processAPI('home/count'), //摸排统计页面
-    // fetchRecordList: _processAPI('home/chart'), //摸排记录查询页面
+    fetchStatisticsList: _processAPI('home/count'), //摸排统计页面
+    fetchRecordList: _processAPI('home/chart'), //摸排记录查询页面
 
     /*
    |----------------------------------------------------------------
    | 张-app-摸排统计页面-相关的API地址
    |----------------------------------------------------------------
    */
-    // fetchCheckRecordList: _processAPI('/member/pageByArea'),//获取摸排记录查询列表
-    // fetchSelectInfo: _processAPI('/dict/getByType'),//获取下拉选项
-    // fetchMemberInfo: (id) => processDataList('/member/get/' + id),//查看详情页面
+    fetchCheckRecordList: _processAPI('/member/pageByArea'),//获取摸排记录查询列表
+    fetchSelectInfo: _processAPI('/dict/getByType'),//获取下拉选项
+    fetchMemberInfo: (id) => processDataList('/member/get/' + id),//查看详情页面
 
     /*
    |----------------------------------------------------------------
    | 张-app-摸排工作统计页面-相关的API地址
    |----------------------------------------------------------------
    */
-    // fetchJobStatisticsList: _processAPI('/static/getStaticSum'),//获取摸排工作统计列表
+    fetchJobStatisticsList: _processAPI('/static/getStaticSum'),//获取摸排工作统计列表
 
     /*
   |----------------------------------------------------------------
   | 张-app-信息录入页面-相关的API地址
   |----------------------------------------------------------------
   */
-    addInfo: _processAPI('/hyFellowDetail/save'),//新建信息录入
-    updateInfo: _processAPI('/hyFellowDetail/update'),//更新信息录入
-    deleteInfo: (id) => processDataList('/hyFellowDetail/delete/' + id),//删除信息录入
-    fetchDetailInfo: (id) => processDataList('/hyFellowDetail/get/' + id),//获取信息详情
-    fetchCheckRecordList: _processAPI('/hyFellowDetail/page'),//获取随访人员列表
+    addInfo: _processAPI('/member/saveAll'),//信息录入
+    deleteInfo: _processAPI('/member/del'),//删除信息
+
+    /*
+     |----------------------------------------------------------------
+     | 海阳-相关的API地址
+     |----------------------------------------------------------------
+     */
+    addPersonnelInfo: _processAPI('/hyFellowDetail/save'),//新建信息录入
+    updatePersonnelInfo: _processAPI('/hyFellowDetail/update'),//更新信息录入
+    deletePersonnelInfo: (id) => processDataList('/hyFellowDetail/delete/' + id),//删除信息录入
+    fetchPersonnelDetailInfo: (id) => processDataList('/hyFellowDetail/get/' + id),//获取信息详情
+    fetchPersonnelList: _processAPI('/hyFellowDetail/page'),//获取随访人员列表
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     /*
@@ -72,8 +96,8 @@ const EnumAPI = {
     | 首页-相关的API地址
     |----------------------------------------------------------------
     */
-    // fetchDashboardTopData: _processAPI('home/count'), //获取首页统计数据
-    // fetchChartLineData: _processAPI('home/chart'), //获取首页折线图数据
+    fetchDashboardTopData: _processAPI('home/count'), //获取首页统计数据
+    fetchChartLineData: _processAPI('home/chart'), //获取首页折线图数据
 
     /*
 	 |----------------------------------------------------------------

@@ -8,11 +8,7 @@
 import {
     fetchMemberInfo,
     fetchCheckRecordList,
-    fetchSelectInfo,
-    addInfo,
-    deleteInfo,
-    fetchDetailInfo,
-    updateInfo,
+    fetchSelectInfo
 } from '@/services/checkRecord/checkRecord';
 import T from '../../utils/T';
 
@@ -38,43 +34,7 @@ export default {
     },
 
     effects: {
-        //信息录入
-        * addInfoAction({params, resolve, reject}, {call, put}) {
-            try {
-                const response = yield call(addInfo, params);
-                resolve(response);
-            } catch (error) {
-                reject(error);
-            }
-        },
-        * updateInfoAction({params, resolve, reject}, {call, put}) {
-            try {
-                const response = yield call(updateInfo, params);
-                resolve(response);
-            } catch (error) {
-                reject(error);
-            }
-        },
-        //删除功能
-        * deleteInfoAction({id, resolve, reject}, {call, put}) {
-            try {
-                const response = yield call(deleteInfo, id);
-                resolve(response);
-            } catch (error) {
-                reject(error);
-            }
-        },
-        //查看详情页面
-        * fetchDetailInfoAction({id, resolve, reject}, {call, put}) {
-            try {
-                const response = yield call(fetchDetailInfo, id);
-                resolve(response);
-            } catch (error) {
-                reject(error);
-            }
-        },
-
-        //获取随访人员列表页面
+        //获取摸排记录列表页面
         * fetchCheckRecordListAction({params, resolve, reject}, {call, put}) {
             try {
                 const response = yield call(fetchCheckRecordList, params);
@@ -83,11 +43,6 @@ export default {
                 reject(error);
             }
         },
-
-
-
-
-
         //获取下拉选项
         * fetchSelectInfoAction({params, resolve, reject}, {call, put}) {
             try {

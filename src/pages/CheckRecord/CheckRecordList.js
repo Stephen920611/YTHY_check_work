@@ -25,7 +25,7 @@ import {
     Tree,
     Spin,
     Table,
-    Divider,
+    Modal,
     Popconfirm,
     TreeSelect,
     Collapse,
@@ -60,6 +60,129 @@ class CheckRecordList extends PureComponent {
         selectedArea: '烟台市',//树节点默认选中的地区名字，用来后台获取参数
         baseInfoSelect: [],     //被调查人基本情况
         bodyConditionSelect: [],     //身体状况
+        treeData: [
+            {
+                children: [
+                    {
+                        id: "GA001",
+                        key: "GA001",
+                        name: "芝罘区",
+                        pId: "GA",
+                        title: "芝罘区",
+                    },
+                    {
+                        id: "GA002",
+                        key: "GA002",
+                        name: "福山区",
+                        pId: "GA",
+                        title: "福山区",
+                    },
+                    {
+                        id: "GA003",
+                        key: "GA003",
+                        name: "莱山区",
+                        pId: "GA",
+                        title: "莱山区",
+                    },
+                    {
+                        id: "GA004",
+                        key: "GA004",
+                        name: "牟平区",
+                        pId: "GA",
+                        title: "牟平区",
+                    },
+                    {
+                        id: "GA005",
+                        key: "GA005",
+                        name: "海阳市",
+                        pId: "GA",
+                        title: "海阳市",
+                    },
+                    {
+                        id: "GA006",
+                        key: "GA006",
+                        name: "莱阳市",
+                        pId: "GA",
+                        title: "莱阳市",
+                    },
+                    {
+                        id: "GA007",
+                        key: "GA007",
+                        name: "栖霞市",
+                        pId: "GA",
+                        title: "栖霞市",
+                    },
+                    {
+                        id: "GA008",
+                        key: "GA008",
+                        name: "蓬莱市",
+                        pId: "GA",
+                        title: "蓬莱市",
+                    },
+                    {
+                        id: "GA009",
+                        key: "GA009",
+                        name: "长岛县",
+                        pId: "GA",
+                        title: "长岛县",
+                    },
+                    {
+                        id: "GA010",
+                        key: "GA010",
+                        name: "龙口市",
+                        pId: "GA",
+                        title: "龙口市",
+                    },
+                    {
+                        id: "GA011",
+                        key: "GA011",
+                        name: "招远市",
+                        pId: "GA",
+                        title: "招远市",
+                    },
+                    {
+                        id: "GA012",
+                        key: "GA012",
+                        name: "莱州市",
+                        pId: "GA",
+                        title: "莱州市",
+                    },
+                    {
+                        id: "GA013",
+                        key: "GA013",
+                        name: "开发区",
+                        pId: "GA",
+                        title: "开发区",
+                    },
+                    {
+                        id: "GA014",
+                        key: "GA014",
+                        name: "高新区",
+                        pId: "GA",
+                        title: "高新区",
+                    },
+                    {
+                        id: "GA015",
+                        key: "GA015",
+                        name: "保税港区",
+                        pId: "GA",
+                        title: "保税港区",
+                    },
+                    {
+                        id: "GA016",
+                        key: "GA016",
+                        name: "昆嵛山保护区",
+                        pId: "GA",
+                        title: "昆嵛山保护区",
+                    },
+                ],
+                id: "GA",
+                key: "GA",
+                name: "烟台市",
+                pId: "0",
+                title: "烟台市",
+            }
+        ],
         total: 0,
         members: [],
         fakeData: {
@@ -233,7 +356,11 @@ class CheckRecordList extends PureComponent {
                 status: '基本状况',
             },
 
-        ]
+        ],
+        visible: false,
+        startPageNum: '',
+        endPageNum: '',
+        maxPageSize: 9999,
     };
 
     componentDidMount() {
@@ -241,52 +368,52 @@ class CheckRecordList extends PureComponent {
         let self = this;
 
         //获取被调查人基本情况
-        /* new Promise((resolve, reject) => {
-             dispatch({
-                 type: 'checkRecord/fetchSelectInfoAction',
-                 params: {
-                     type: 'BASE_INFO'
-                 },
-                 resolve,
-                 reject,
-             });
-         }).then(response => {
-             if (response.code === 0) {
-                 response.data.unshift({
-                     name: "全部",
-                     value: "全部"
-                 });
-                 self.setState({
-                     baseInfoSelect: response.data
-                 })
-             } else {
-                 T.prompt.error(response.msg);
-             }
-         });*/
+        new Promise((resolve, reject) => {
+            dispatch({
+                type: 'checkRecord/fetchSelectInfoAction',
+                params: {
+                    type: 'BASE_INFO'
+                },
+                resolve,
+                reject,
+            });
+        }).then(response => {
+            if (response.code === 0) {
+                response.data.unshift({
+                    name: "全部",
+                    value: "全部"
+                });
+                self.setState({
+                    baseInfoSelect: response.data
+                })
+            } else {
+                T.prompt.error(response.msg);
+            }
+        });
 
         //获取身体情况列表
-        /* new Promise((resolve, reject) => {
-             dispatch({
-                 type: 'checkRecord/fetchSelectInfoAction',
-                 params: {
-                     type: 'BODY_CONDITION'
-                 },
-                 resolve,
-                 reject,
-             });
-         }).then(response => {
-             if (response.code === 0) {
-                 response.data.unshift({
-                     name: "全部",
-                     value: "全部"
-                 });
-                 self.setState({
-                     bodyConditionSelect: response.data
-                 });
-             } else {
-                 T.prompt.error(response.msg);
-             }
-         });*/
+        new Promise((resolve, reject) => {
+            dispatch({
+                type: 'checkRecord/fetchSelectInfoAction',
+                params: {
+                    type: 'BODY_CONDITION'
+                },
+                resolve,
+                reject,
+            });
+        }).then(response => {
+            if (response.code === 0) {
+                response.data.unshift({
+                    name: "全部",
+                    value: "全部"
+                });
+                self.setState({
+                    bodyConditionSelect: response.data
+                });
+            } else {
+                T.prompt.error(response.msg);
+            }
+        });
         this.fetchDataList();
     }
 
@@ -299,21 +426,28 @@ class CheckRecordList extends PureComponent {
         form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 //地区分类
-                // let loginInfo = T.auth.getLoginInfo();
+                let categoryCode = '';
+                treeData.map(val => {
+                    if (values.resourceType === val.name) {
+                        categoryCode = val.id;
+                    }
+                });
+                let loginInfo = T.auth.getLoginInfo();
 
                 let params = {
                     current: currentPage,
                     size: EnumDataSyncPageInfo.defaultPageSize,
-                    startTime: T.lodash.isUndefined(values.startDate) ? '' : T.helper.dateFormat(values.startDate, 'YYYY-MM-DD'),      //开始时间
-                    endTime: T.lodash.isUndefined(values.endDate) ? '' : T.helper.dateFormat(values.endDate, 'YYYY-MM-DD'),        //结束时间
-                    // area: T.auth.isAdmin() ? selectedArea === "烟台市" ? '' : selectedArea : loginInfo.data.area,           //县市区(烟台市传空)
+                    startTime: T.lodash.isUndefined(values.startDate) ? '' : T.helper.dateFormat(values.startDate,'YYYY-MM-DD'),      //开始时间
+                    endTime: T.lodash.isUndefined(values.endDate) ? '' : T.helper.dateFormat(values.endDate,'YYYY-MM-DD'),        //结束时间
+                    area: T.auth.isAdmin() ? selectedArea === "烟台市" ? '' : selectedArea : loginInfo.data.area,           //县市区(烟台市传空)
                     name: T.lodash.isUndefined(values.person) ? '' : values.person,           //被调查人姓名
-                    idCard: T.lodash.isUndefined(values.idCard) ? '' : values.idCard,
-                    isSymptom: T.lodash.isUndefined(values.isSymptom) ? '' : values.isSymptom,
-                    isCloser: T.lodash.isUndefined(values.isCloser) ? '' : values.isCloser,
-                    dutyPolice: T.lodash.isUndefined(values.dutyPolice) ? '' : values.dutyPolice,
-                    // fillUserId: loginInfo.data.static_auth === 0 ? loginInfo.data.id : ''   //摸排人id
-                }
+                    gender: T.lodash.isUndefined(values.sex) ? '' : values.sex === 'all' ? '' : values.sex,         //性别
+                    // idCard: "",         //身份证号
+                    baseInfo: T.lodash.isUndefined(values.base) ? '' : values.base === '全部' ? '' : values.base,         //被调查人基本情况
+                    bodyCondition: T.lodash.isUndefined(values.status) ? '' : values.status === '全部' ? '' : values.status,         //身体状况
+                    fillUserName: T.lodash.isUndefined(values.head) ? '' : values.head,   //摸排人
+                    fillUserId: loginInfo.data.static_auth === 0 ? loginInfo.data.id : ''   //摸排人id
+                };
                 new Promise((resolve, reject) => {
                     dispatch({
                         type: 'checkRecord/fetchCheckRecordListAction',
@@ -323,17 +457,17 @@ class CheckRecordList extends PureComponent {
                     });
                 }).then(response => {
                     if (response.code === 0) {
-                        const {total, list} = response.data;
-                        let endData = list.map((val, idx) => {
+                        const { total, members } = response.data;
+                        let endData = members.map( (val,idx) => {
                             return {
                                 ...val,
-                                key: (currentPage - 1) * 10 + idx + 1,
-                                index: (currentPage - 1) * 10 + idx + 1,
+                                key: (currentPage-1) * 10 + idx + 1,
+                                index: (currentPage-1) * 10 + idx + 1,
                             }
                         });
                         self.setState({
                             total,
-                            tableData: endData,
+                            members: endData,
                         })
                     } else {
                         T.prompt.error(response.msg);
@@ -350,6 +484,50 @@ class CheckRecordList extends PureComponent {
         this.fetchDataList();
     };
 
+    //树选择
+    onSelect = (keys, event) => {
+        //点击选中事件，属性可以打印查看
+        const eventData = event.node.props;
+        // this.props.form.setFieldsValue({
+        //     resourceType: eventData.name
+        // });
+        let self = this;
+        this.setState({
+            selectedKey: keys[0],
+            selectedArea: eventData.name
+        }, () => {
+            self.fetchDataList()
+        });
+    };
+
+    //渲染树节点
+    renderTreeNodes = data => {
+        return data.map(item => {
+            if (item.children) {
+                return (
+                    <TreeNode {...item} dataRef={item} title={item.name} key={item.id}>
+                        {this.renderTreeNodes(item.children)}
+                    </TreeNode>
+                );
+            }
+            return <TreeNode {...item} dataRef={item} title={item.name} key={item.id} isLeaf/>;
+        });
+    };
+
+    //渲染select树节点
+    renderSelectTreeNodes = data => {
+        return data.map(item => {
+            if (item.children) {
+                return (
+                    <TreeSelect.TreeNode {...item} dataRef={item} title={item.name} value={item.name} key={item.id}>
+                        {this.renderSelectTreeNodes(item.children)}
+                    </TreeSelect.TreeNode>
+                );
+            }
+            return <TreeSelect.TreeNode {...item} dataRef={item} title={item.name} value={item.name} key={item.id}
+                                        isLeaf/>;
+        });
+    };
 
     //查询
     searchDataSource = (e) => {
@@ -374,7 +552,9 @@ class CheckRecordList extends PureComponent {
 
     //导出
     exportData = () => {
-
+        this.setState({
+            visible: true,
+        });
     };
 
     //查看详情
@@ -387,49 +567,268 @@ class CheckRecordList extends PureComponent {
             },
         });
     };
-    //编辑详情
-    editMetadataManage = (e, key) => {
-        // /addInfo
-        router.push({
-            pathname: '/checkRecord/addRecordDetail',
-            params: {
-                isRouterPush: true,
-                data: key
-            },
+
+    //树选择
+    onTreeChange = (e, node) => {
+        this.setState({
+            selectedKey: node.props.id,
         });
+    };
+
+    handleOk = e => {
+        const {
+            total,
+            startPageNum,
+            endPageNum,
+            maxPageSize
+        } = this.state;
+        // this.setState({
+        //     visible: false,
+        // });
+    };
+
+    handleCancel = e => {
+        this.setState({
+            visible: false,
+            startPageNum: '',
+            endPageNum: '',
+        });
+    };
+
+    onStartPageChange = (e) => {
+        let r = /^\+?[1-9][0-9]*$/;
+        if(!r.test(e.target.value)) {
+            T.prompt.error("请输入大于0的数字");
+            this.setState({
+                startPageNum: ''
+            })
+        }else {
+            this.setState({
+                startPageNum: e.target.value === '' ? e.target.value : Number(e.target.value)
+            })
+        }
+        // const {
+        //     total,
+        //     endPageNum,
+        //     maxPageSize
+        // } = this.state;
+        // // console.log(e.target.value,'onStartPageChange');
+        // // console.log(Number(e.target.value),'Number(e.target.value)')
+        // let currentNum = Number(e.target.value);
+        // let startNum;
+        // // let startNum = Number(e.target.value) >= total ? total : Number(e.target.value);
+        // // if(currentNum >= total){
+        // //     startNum = total;
+        // // }else if ((endPageNum - maxPageSize) > currentNum ){
+        // //     startNum = endPageNum - maxPageSize;
+        // // }else {
+        // //     startNum = currentNum;
+        // // }
+        //
+        // if(currentNum >= total){
+        //     startNum = total;
+        // }else {
+        //     startNum = currentNum;
+        // }
+        // this.setState({
+        //     startPageNum: startNum
+        // })
+    };
+
+    onStartPageCheck = (e) => {
+        const {
+            total,
+            startPageNum,
+            endPageNum,
+            maxPageSize
+        } = this.state;
+        let currentNum = Number(startPageNum);
+        this.setState({
+            // endPageNum: currentNum > 0 ? currentNum > (currentNum + maxPageSize) ? (currentNum + maxPageSize) : total : ''
+            endPageNum: currentNum > 0 ? (currentNum + maxPageSize) > total ? total : (currentNum + maxPageSize) : '',
+            startPageNum: currentNum > total ?  total : currentNum
+        })
+        // console.log(currentNum,'currentNum');
+        // let startNum;
+        // if(currentNum <= 0){
+        //     endNum = '';
+        // }else if(currentNum <= startPageNum && currentNum > 0){
+        //     endNum = startPageNum;
+        // }else if(currentNum > startPageNum && currentNum < (maxPageSize + startPageNum) && (maxPageSize + startPageNum) <= total){
+        //     endNum = currentNum;
+        // }else if(currentNum > startPageNum && currentNum < (maxPageSize + startPageNum) && currentNum < total && (maxPageSize + startPageNum) > total){
+        //     endNum = currentNum;
+        // }else if(currentNum > startPageNum && currentNum < (maxPageSize + startPageNum) && currentNum < total && (maxPageSize + startPageNum) < total){
+        //     endNum = currentNum;
+        // }else if(currentNum > startPageNum && currentNum > (maxPageSize + startPageNum) && currentNum > total && (maxPageSize + startPageNum) > total){
+        //     endNum = total;
+        // }else if(currentNum > startPageNum && currentNum > (maxPageSize + startPageNum) && currentNum > total && (maxPageSize + startPageNum) < total){
+        //     endNum = maxPageSize + startPageNum;
+        // }
+        // // else if(currentNum >= (maxPageSize + startPageNum)){
+        // //     endNum = maxPageSize + startPageNum;
+        // // }else if(currentNum > total && (maxPageSize + startPageNum) > total){
+        // //     endNum = total;
+        // // }else {
+        // //     endNum = currentNum;
+        // // }
+        // this.setState({
+        //     endPageNum: endNum
+        // })
+    };
+
+    onEndPageChange = (e) => {
+        const {
+            total,
+            startPageNum,
+            maxPageSize
+        } = this.state;
+        let currentNum = Number(e.target.value);
+        let endNum;
+
+        let r = /^\+?[1-9][0-9]*$/;
+        if(!r.test(e.target.value)) {
+            T.prompt.error("请输入大于0的数字");
+            this.setState({
+                endPageNum: ''
+            })
+        }else {
+            this.setState({
+                endPageNum: e.target.value === '' ? e.target.value : Number(e.target.value)
+            })
+        }
+        // if(currentNum >= total){
+        //     endNum = total;
+        // }else if (currentNum <= 0){
+        //     endNum = '';
+        // } else if (currentNum > 0 && currentNum < startPageNum){
+        //     endNum = startPageNum;
+        // } else {
+        //     if(currentNum > (startPageNum + maxPageSize)) {
+        //         endNum = startPageNum + maxPageSize;
+        //     }else {
+        //         endNum = currentNum;
+        //     }
+        // }
+        // //如果为空
+        // if(currentNum === ''){
+        //     endNum = currentNum
+        // }else {
+        //     endNum = Number(currentNum)
+        // }
 
     };
 
-    //新增功能
-    addInfoBtn = () => {
-        router.push({
-            pathname: '/checkRecord/addRecordDetail',
-            params: {
-                isRouterPush: true,
-            },
-        });
-    };
-    //删除功能
-    removeData = (id) => {
-        const {dispatch} = this.props;
-        let self = this;
-        new Promise((resolve, reject) => {
-            dispatch({
-                type: 'checkRecord/deleteInfoAction',
-                id,
-                resolve,
-                reject,
-            });
-        }).then(response => {
-            if (response.code === 0) {
-                T.prompt.success("提交成功");
-                self.fetchDataList();
-            } else {
-                T.prompt.error(response.msg);
+    onEndPageCheck = (e) => {
+        const {
+            total,
+            startPageNum,
+            endPageNum,
+            maxPageSize
+        } = this.state;
+        let currentNum = Number(endPageNum);
+        // console.log(currentNum,'currentNum');
+        let endNum;
+        // if(currentNum <= 0){
+        //     endNum = '';
+        // }else if(currentNum <= startPageNum && currentNum > 0){
+        //     endNum = startPageNum;
+        // }else if(currentNum > startPageNum && currentNum < (maxPageSize + startPageNum) && (maxPageSize + startPageNum) <= total){
+        //     endNum = currentNum;
+        // }else if(currentNum > startPageNum && currentNum <= (maxPageSize + startPageNum) && currentNum <= total && (maxPageSize + startPageNum) > total){
+        //     endNum = currentNum;
+        // }else if(currentNum > startPageNum && currentNum <= (maxPageSize + startPageNum) && currentNum <= total && (maxPageSize + startPageNum) < total){
+        //     endNum = currentNum;
+        // }else if(currentNum > startPageNum && currentNum > (maxPageSize + startPageNum) && currentNum > total && (maxPageSize + startPageNum) > total){
+        //     endNum = total;
+        // }else if(currentNum > startPageNum && currentNum > (maxPageSize + startPageNum) && currentNum > total && (maxPageSize + startPageNum) < total){
+        //     endNum = maxPageSize + startPageNum;
+        // }
+
+        if(currentNum <= 0){
+            endNum = '';
+        }else {
+            if(currentNum <= startPageNum){
+                endNum = startPageNum;
+            }else {
+                if((maxPageSize + startPageNum)  <= total){
+                    if(currentNum <= (maxPageSize + startPageNum)){
+                        endNum = currentNum
+                    }else {
+                        endNum = maxPageSize + startPageNum
+                    }
+                }else {
+                    if(currentNum <= total){
+                        endNum = currentNum
+                    }else {
+                        endNum = total
+                    }
+                }
             }
+        }
+        // console.log(endNum,'endNum');
+
+        // else if(currentNum >= (maxPageSize + startPageNum)){
+        //     endNum = maxPageSize + startPageNum;
+        // }else if(currentNum > total && (maxPageSize + startPageNum) > total){
+        //     endNum = total;
+        // }else {
+        //     endNum = currentNum;
+        // }
+        this.setState({
+            endPageNum: endNum
         })
     };
 
+    sendParams = () => {
+        const {
+            form: {getFieldsValue},
+        } = this.props;
+        const {
+            selectedArea,
+            startPageNum,
+            endPageNum,
+            maxPageSize,
+        } = this.state;
+
+        let loginInfo = T.auth.getLoginInfo();
+        let formTimeValue = getFieldsValue();
+
+        let formStartTime = T.lodash.isUndefined(formTimeValue.startDate) ? '' : T.helper.dateFormat(formTimeValue.startDate,'YYYY-MM-DD');
+        let formEndTime = T.lodash.isUndefined(formTimeValue.endDate) ? '' : T.helper.dateFormat(formTimeValue.endDate,'YYYY-MM-DD');
+        let formArea = T.auth.isAdmin() ? selectedArea === "烟台市" ? '' : selectedArea : loginInfo.data.area;
+        let formName = T.lodash.isUndefined(formTimeValue.person) ? '' : formTimeValue.person;
+        let formGender = T.lodash.isUndefined(formTimeValue.sex) ? '' : formTimeValue.sex === 'all' ? '' : formTimeValue.sex;
+        let formBaseInfo = T.lodash.isUndefined(formTimeValue.base) ? '' : formTimeValue.base === '全部' ? '' : formTimeValue.base;
+        // let formIdCard = '';
+        let formBodyCondition = T.lodash.isUndefined(formTimeValue.status) ? '' : formTimeValue.status === '全部' ? '' : formTimeValue.status;
+        let formFillUserId = loginInfo.data.static_auth === 0 ? loginInfo.data.id : '';
+        let formFillUserName = T.lodash.isUndefined(formTimeValue.head) ? '' : formTimeValue.head;
+        let formCurrent = startPageNum;
+        let formSize = endPageNum;
+
+        // let apiHref = `${window.ENV.apiDomain}` + "/excel/memberDetail?startTime=" + formStartTime + '&endTime=' + formEndTime + '&area=' + formArea + '';
+        let apiHref = `${window.ENV.apiDomain}/excel/memberDetail?startTime=${formStartTime}&endTime=${formEndTime}&area=${formArea}&name=${formName}&gender=${formGender}&baseInfo=${formBaseInfo}&bodyCondition=${formBodyCondition}&fillUserId=${formFillUserId}&fillUserName=${formFillUserName}&current=${formCurrent}&size=${formSize}`;
+        if(endPageNum === '' || startPageNum === ''){
+            T.prompt.error('起始条数和结束条数不能为空！')
+        }else {
+            const w=window.open('about:blank');
+            w.location.href = apiHref;
+        }
+    };
+
+    //渲染不同的下拉框
+    renderSelect = (dataSource) => {
+        return (
+            dataSource.map((item,idx) => {
+                return (
+                    <Option key={item.value} value={item.name}>
+                        {item.name}
+                    </Option>
+                )
+            })
+        )
+    };
 
     render() {
         const {
@@ -438,7 +837,7 @@ class CheckRecordList extends PureComponent {
             savingStatus,
             testStatus,
             metadataManage,
-            form: {getFieldDecorator, getFieldValue},
+            form: {getFieldDecorator, getFieldValue, getFieldsValue},
         } = this.props;
         // const {dataResourceLists, dataResourceTypeTreeList, dataSourceTypeTreeOldData} = metadataManage;
         const {
@@ -450,8 +849,45 @@ class CheckRecordList extends PureComponent {
             currentPage,
             selectedKey,
             bodyConditionSelect,
-            baseInfoSelect
+            baseInfoSelect,
+            startPageNum,
+            endPageNum,
+            maxPageSize,
         } = this.state;
+        // console.log(Number(startPageNum),'startPageNum');
+
+        let loginInfo = T.auth.getLoginInfo();
+        let formTimeValue = getFieldsValue();
+        // let params = {
+        //     current: currentPage,
+        //     size: EnumDataSyncPageInfo.defaultPageSize,
+        //     startTime: T.lodash.isUndefined(values.startDate) ? '' : T.helper.dateFormat(values.startDate,'YYYY-MM-DD'),      //开始时间
+        //     endTime: T.lodash.isUndefined(values.endDate) ? '' : T.helper.dateFormat(values.endDate,'YYYY-MM-DD'),        //结束时间
+        //     area: T.auth.isAdmin() ? selectedArea === "烟台市" ? '' : selectedArea : loginInfo.data.area,           //县市区(烟台市传空)
+        //     name: T.lodash.isUndefined(values.person) ? '' : values.person,           //被调查人姓名
+        //     gender: T.lodash.isUndefined(values.sex) ? '' : values.sex === 'all' ? '' : values.sex,         //性别
+        //     // idCard: "",         //身份证号
+        //     baseInfo: T.lodash.isUndefined(values.base) ? '' : values.base === '全部' ? '' : values.base,         //被调查人基本情况
+        //     bodyCondition: T.lodash.isUndefined(values.status) ? '' : values.status === '全部' ? '' : values.status,         //身体状况
+        //     fillUserName: T.lodash.isUndefined(values.head) ? '' : values.head,   //摸排人
+        //     fillUserId: loginInfo.data.static_auth === 0 ? loginInfo.data.id : ''   //摸排人id
+        // };
+
+        let formStartTime = T.lodash.isUndefined(formTimeValue.startDate) ? '' : T.helper.dateFormat(formTimeValue.startDate,'YYYY-MM-DD');
+        let formEndTime = T.lodash.isUndefined(formTimeValue.endDate) ? '' : T.helper.dateFormat(formTimeValue.endDate,'YYYY-MM-DD');
+        let formArea = T.auth.isAdmin() ? selectedArea === "烟台市" ? '' : selectedArea : loginInfo.data.area;
+        let formName = T.lodash.isUndefined(formTimeValue.person) ? '' : formTimeValue.person;
+        let formGender = T.lodash.isUndefined(formTimeValue.sex) ? '' : formTimeValue.sex === 'all' ? '' : formTimeValue.sex;
+        let formBaseInfo = T.lodash.isUndefined(formTimeValue.base) ? '' : formTimeValue.base === '全部' ? '' : formTimeValue.base;
+        // let formIdCard = '';
+        let formBodyCondition = T.lodash.isUndefined(formTimeValue.status) ? '' : formTimeValue.status === '全部' ? '' : formTimeValue.status;
+        let formFillUserId = loginInfo.data.static_auth === 0 ? loginInfo.data.id : '';
+        let formFillUserName = T.lodash.isUndefined(formTimeValue.head) ? '' : formTimeValue.head;
+        let formCurrent = startPageNum;
+        let formSize = endPageNum;
+
+        // let apiHref = `${window.ENV.apiDomain}` + "/excel/memberDetail?startTime=" + formStartTime + '&endTime=' + formEndTime + '&area=' + formArea + '';
+        let apiHref = `${window.ENV.apiDomain}/excel/memberDetail?startTime=${formStartTime}&endTime=${formEndTime}&area=${formArea}&name=${formName}&gender=${formGender}&baseInfo=${formBaseInfo}&bodyCondition=${formBodyCondition}&fillUserId=${formFillUserId}&fillUserName=${formFillUserName}&current=${formCurrent}&size=${formSize}`;
 
         const columns = [
             {
@@ -460,57 +896,50 @@ class CheckRecordList extends PureComponent {
                 key: 'index',
             },
             {
+                title: '县市区',
+                dataIndex: 'area',
+                key: 'area',
+            },
+            {
                 title: '姓名',
                 dataIndex: 'name',
                 key: 'name',
             },
             {
-                title: '证件号码',
+                title: '年龄',
+                dataIndex: 'age',
+                key: 'age',
+            },
+            {
+                title: '性别',
+                dataIndex: 'gender',
+                key: 'gender',
+            },
+            {
+                title: '填报日期',
+                dataIndex: 'createTime',
+                key: 'createTime',
+            },
+            {
+                title: '身份证号',
                 dataIndex: 'idCard',
                 key: 'idCard',
             },
-            {
-                title: '手机号',
-                dataIndex: 'telephone',
-                key: 'telephone',
-            },
 
             {
-                title: '到达本市日期',
-                dataIndex: 'createTime',
-                key: 'createTime',
-                render: text => <span >{T.helper.dateFormat(text,'YYYY-MM-DD')}</span>
+                title: '被调查人基本情况',
+                dataIndex: 'baseInfo',
+                key: 'baseInfo',
             },
+            // {
+            //     title: '身体状况',
+            //     dataIndex: 'status',
+            //     key: 'status',
+            // },
             {
-                title: '来鲁方式',
-                dataIndex: 'typeArrvie',
-                key: 'typeArrvie',
-            },
-            {
-                title: '是否从外省返乡',
-                dataIndex: 'isFromOtherProvince',
-                key: 'isFromOtherProvince',
-            },
-            {
-                title: '有无咳嗽、胸闷等症状',
-                dataIndex: 'isSymptom',
-                key: 'isSymptom',
-            },
-            {
-                title: '责任民警',
-                dataIndex: 'dutyPolice',
-                key: 'dutyPolice',
-            },
-            {
-                title: '是否密切接触者',
-                dataIndex: 'isCloser',
-                key: 'isCloser',
-            },
-            {
-                title: '登记日期',
-                dataIndex: 'regDate',
-                key: 'regDate',
-                render: text => <span >{T.helper.dateFormat(text,'YYYY-MM-DD')}</span>
+                title: '摸排人',
+                dataIndex: 'fillUserName',
+                key: 'fillUserName',
             },
             {
                 title: '操作',
@@ -518,15 +947,7 @@ class CheckRecordList extends PureComponent {
                 // width: '15%',
                 render: (text, record) => {
                     return (
-                        <span>
-                            <a onClick={e => this.editMetadataManage(e, record)}>编辑</a>
-                            <Divider type="vertical"/>
-                            <a onClick={e => this.showMetadataManage(e, record)}>查看</a>
-                            <Divider type="vertical"/>
-                            <Popconfirm title="是否要删除此行？" onConfirm={() => this.removeData(record.id)}>
-                                <a>删除</a>
-                            </Popconfirm>
-                        </span>
+                        <span><a onClick={e => this.showMetadataManage(e, record)}>查看详情</a></span>
                     );
                 },
             }
@@ -544,105 +965,147 @@ class CheckRecordList extends PureComponent {
             }),
         };
         return (
-            <PageHeaderWrapper
-                title="随访人员记录"
-                isSpecialBreadcrumb={true}
-            >
+            <PageHeaderWrapper title="摸排记录查询">
                 <Row gutter={24}>
-                    {/*<Col xl={T.auth.isAdmin() ? 19: 24} lg={T.auth.isAdmin() ? 19: 24} md={T.auth.isAdmin() ? 19: 24} sm={24} xs={24} className={styles.dataSourceTableList}>*/}
-                    <Col xl={24} lg={24} md={24} sm={24} xs={24} className={styles.dataSourceTableList}>
+                    {
+                        T.auth.isAdmin() ?
+                            <Col xl={4} lg={4} md={4} sm={24} xs={24}>
+                                <Card
+                                    title="资源列表"
+                                    bordered={false}
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                    }}
+                                >
+                                    {
+                                        fetchTreeStatus ? <Spin/> :
+                                            <DirectoryTree
+                                                multiple
+                                                defaultExpandAll={true}
+                                                onSelect={this.onSelect.bind(this)}
+                                                selectedKeys={[selectedKey]}
+                                            >
+                                                {this.renderTreeNodes(treeData)}
+                                            </DirectoryTree>
+                                    }
+                                </Card>
+                            </Col>
+                            :
+                            null
+                    }
+                    <Col xl={T.auth.isAdmin() ? 20: 24} lg={T.auth.isAdmin() ? 20: 24} md={T.auth.isAdmin() ? 20: 24} sm={24} xs={24} className={styles.dataSourceTableList}>
                         <Form layout="inline" onSubmit={this.searchDataSource}>
                             <Row className={`${styles.dataSourceTitle} ${styles.tableListForms}`}
                                  style={{marginBottom: 10}}>
                                 <Col xl={6} lg={6} md={6} sm={6} xs={24}>
                                     <Form.Item
-                                        label='姓名'
+                                        label={<FormattedMessage
+                                            id="checkRecord.resourceList.person.label"/>}
                                     >
                                         {getFieldDecorator('person', {})(
                                             <Input
                                                 autoComplete="off"
-                                                placeholder='姓名'
-                                            />
-                                        )}
-                                    </Form.Item>
-                                </Col>
-                                <Col xl={6} lg={6} md={6} sm={6} xs={24}>
-                                    <Form.Item
-                                        label='身份证号'
-                                    >
-                                        {getFieldDecorator('idCard', {})(
-                                            <Input
-                                                autoComplete="off"
-                                                placeholder='身份证号'
+                                                placeholder={formatMessage({
+                                                    id: 'checkRecord.resourceList.person.placeholder',
+                                                })}
                                             />
                                         )}
                                     </Form.Item>
                                 </Col>
                                 <Col xl={6} lg={6} md={6} sm={6} xs={24} style={{textAlign: 'left'}}>
                                     <Form.Item
-                                        label='有无咳嗽、胸闷等症状'
+                                        label={<FormattedMessage
+                                            id="checkRecord.resourceList.sex.label"/>}
                                     >
-                                        {getFieldDecorator('symptom', {
-                                            // initialValue: "否",
+                                        {getFieldDecorator('sex', {
+                                            initialValue: "all",
                                         })(
                                             <Radio.Group onChange={this.onChange}>
-                                                <Radio value={"有"}>有</Radio>
-                                                <Radio value={"无"}>无</Radio>
+                                                <Radio value={"男"}>男</Radio>
+                                                <Radio value={"女"}>女</Radio>
+                                                <Radio value={"all"}>全部</Radio>
                                             </Radio.Group>
                                         )}
                                     </Form.Item>
                                 </Col>
-                                <Col xl={6} lg={6} md={6} sm={6} xs={24} style={{textAlign: 'left'}}>
-                                    <Form.Item
-                                        label='是否密切接触者'
-                                    >
-                                        {getFieldDecorator('contact', {
-                                            // initialValue: "否",
-                                        })(
-                                            <Radio.Group onChange={this.onChange}>
-                                                <Radio value={"是"}>是</Radio>
-                                                <Radio value={"否"}>否</Radio>
-                                            </Radio.Group>
-                                        )}
-                                    </Form.Item>
-                                </Col>
-
-                            </Row>
-                            <Row className={`${styles.dataSourceTitle} ${styles.tableListForms}`}
-                                 style={{marginBottom: 10}}>
                                 <Col xl={6} lg={6} md={6} sm={6} xs={24}>
                                     <Form.Item
-                                        label='开始时间'
+                                        label={<FormattedMessage
+                                            id="checkRecord.resourceList.startDate.label"/>}
                                     >
                                         {getFieldDecorator('startDate', {
-                                            // rules: [{required: true, message: '请选择结束时间！'}],
-                                            // initialValue: T.moment(new Date().getTime()),
+                                            // rules: [{required: true, message: '请选择开始时间！'}],
+                                            // initialValue: T.moment(new Date(new Date(new Date().toLocaleDateString()).getTime()).getTime()),
                                         })(
-                                            <DatePicker style={{width: '100%'}}/>
+                                            <DatePicker/>
                                         )}
                                     </Form.Item>
                                 </Col>
                                 <Col xl={6} lg={6} md={6} sm={6} xs={24}>
                                     <Form.Item
-                                        label='结束时间'
+                                        label={<FormattedMessage
+                                            id="checkRecord.resourceList.endDate.label"/>}
                                     >
                                         {getFieldDecorator('endDate', {
                                             // rules: [{required: true, message: '请选择结束时间！'}],
                                             // initialValue: T.moment(new Date().getTime()),
                                         })(
-                                            <DatePicker style={{width: '100%'}}/>
+                                            <DatePicker/>
                                         )}
                                     </Form.Item>
                                 </Col>
+                            </Row>
+                            <Row className={`${styles.dataSourceTitle} ${styles.tableListForms}`}
+                                 style={{marginBottom: 10}}>
 
                                 <Col xl={6} lg={6} md={6} sm={6} xs={24}>
                                     <Form.Item
-                                        label='责任民警'
+                                        label={<FormattedMessage
+                                            id="checkRecord.resourceList.base.label"/>}
+                                    >
+                                        {getFieldDecorator('base',{
+                                            initialValue: "全部"
+                                        })(
+                                            <Select
+                                                getPopupContainer={triggerNode => triggerNode.parentNode}
+                                            >
+                                                {
+                                                    this.renderSelect(baseInfoSelect)
+                                                }
+                                            </Select>
+                                        )}
+                                    </Form.Item>
+                                </Col>
+                                <Col xl={6} lg={6} md={6} sm={6} xs={24}>
+                                    <Form.Item
+                                        label={<FormattedMessage
+                                            id="checkRecord.resourceList.status.label"/>}
+                                    >
+                                        {getFieldDecorator('status',{
+                                            initialValue: "全部"
+                                        })(
+                                            <Select
+                                                getPopupContainer={triggerNode => triggerNode.parentNode}
+                                            >
+                                                {
+                                                    this.renderSelect(bodyConditionSelect)
+                                                }
+                                            </Select>
+                                        )}
+                                    </Form.Item>
+                                </Col>
+                                <Col xl={6} lg={6} md={6} sm={6} xs={24}>
+                                    <Form.Item
+                                        label={<FormattedMessage
+                                            id="checkRecord.resourceList.head.label"/>}
                                     >
                                         {getFieldDecorator('head', {})(
                                             <Input
                                                 autoComplete="off"
-                                                placeholder='请输入责任民警'
+                                                placeholder={formatMessage({
+                                                    id: 'checkRecord.resourceList.head.placeholder',
+                                                })}
                                             />
                                         )}
                                     </Form.Item>
@@ -650,42 +1113,35 @@ class CheckRecordList extends PureComponent {
                                 <Col xl={6} lg={8} md={8} sm={8} xs={24} style={{textAlign: 'left'}}>
                                     <Form.Item className={styles.searchBtnWrapper}>
                                         <Button htmlType="submit" style={{marginRight: 10}}>
-                                            查询
+                                            <FormattedMessage id="checkRecord.btn.search"/>
                                         </Button>
                                         <Button onClick={this.resetDataSource} type="primary" style={{marginRight: 10}}>
-                                            重置
+                                            <FormattedMessage id="checkRecord.btn.reset"/>
                                         </Button>
-                                        {/*<Button onClick={this.exportData} type="primary">*/}
-                                            {/*导出*/}
-                                        {/*</Button>*/}
+                                        <Button onClick={this.exportData} type="primary">
+                                            <FormattedMessage id="checkRecord.btn.output"/>
+                                        </Button>
                                     </Form.Item>
                                 </Col>
                             </Row>
                         </Form>
                         <Row className={`${styles.dataSourceTitle} ${styles.tableListForms}`}
                              style={{marginBottom: 10}}>
-                            <Button onClick={this.addInfoBtn} type="primary">
-                                新增
-                            </Button>
-                        </Row>
-                        <Row className={`${styles.dataSourceTitle} ${styles.tableListForms}`}
-                             style={{marginBottom: 10}}>
                             检索结果：{total}
                         </Row>
-
                         <Row>
                             <Card bordered={false}>
                                 <Table
                                     columns={columns}
-                                    // dataSource={members}
-                                    dataSource={tableData}
+                                    dataSource={members}
                                     rowSelection={rowSelection}
-                                    // loading={fetchCheckRecordListStatus}
+                                    loading={fetchCheckRecordListStatus}
                                     pagination={{
                                         current: currentPage,
                                         onChange: this.pageChange,
                                         pageSize: EnumDataSyncPageInfo.defaultPageSize,
                                         total: Number(total) + 1,
+                                        showQuickJumper: true
                                     }}
                                     // rowClassName={record => (record.editable ? styles.editable : '')}
                                 />
@@ -693,6 +1149,30 @@ class CheckRecordList extends PureComponent {
                         </Row>
                     </Col>
                 </Row>
+                <Modal
+                    title="导出功能"
+                    visible={this.state.visible}
+                    onOk={this.handleOk}
+                    onCancel={this.handleCancel}
+                    footer={[
+                        <Button key="back" onClick={this.handleCancel}>
+                            取消
+                        </Button>,
+                        <Button key="submit" type="primary" onClick={this.sendParams}>
+                            确定
+                        </Button>
+                    ]}
+                >
+                    <div style={{fontWeight: 'bold'}}>
+                        每次最多导出{maxPageSize + 1}条
+                    </div>
+                    <div style={{marginTop: 10}}>
+                        起始条数：<Input placeholder="请输入起始条数" value={startPageNum} allowClear onChange={this.onStartPageChange} onBlur={this.onStartPageCheck}/>
+                    </div>
+                    <div style={{marginTop: 10}}>
+                        结束条数：<Input placeholder="请输入结束条数" value={endPageNum} allowClear onChange={this.onEndPageChange} onBlur={this.onEndPageCheck}/>
+                    </div>
+                </Modal>
             </PageHeaderWrapper>
         );
     }

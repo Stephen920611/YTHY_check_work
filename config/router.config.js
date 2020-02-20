@@ -25,7 +25,7 @@ export default [
         Routes: ['src/pages/Authorized'],
         routes: [
             // dashboard
-            {path: '/', redirect: '/checkRecord', authority: ['admin']},
+            {path: '/', redirect: '/jobStatistics', authority: ['admin']},
             /*----------------- 首页 -------------------*/
             // {
             //     path: '/dashboard',
@@ -35,7 +35,7 @@ export default [
             // },
 
             /*----------------- 摸排工作统计 -------------------*/
-            /*{
+            {
                 path: '/jobStatistics',
                 name: 'jobStatistics',
                 icon: 'home',
@@ -46,7 +46,7 @@ export default [
                 path: '/checkRecord/showDetail',
                 component: './CheckRecord/CheckRecordDetail',
                 authority: ['admin']
-            },*/
+            },
 
             /*----------------- 摸排记录查询 -------------------*/
             {
@@ -66,8 +66,28 @@ export default [
                 component: './CheckRecord/AddRecordDetail',
                 authority: ['admin']
             },
+            /*----------------随访人员统计---------------------*/
+            {
+                path: '/personnelStatistics',
+                name: 'personnelStatistics',
+                icon: 'home',
+                component: './PersonnelStatistics/PersonnelStatisticsList',
+                authority: ['admin']
+            },
+            {
+                path: '/personnelStatistics/showDetail',
+                component: './PersonnelStatistics/PersonnelStatisticsDetail',
+                authority: ['admin']
+            },
+            {
+                path: '/personnelStatistics/addPersonnelDetail',
+                component: './PersonnelStatistics/addPersonnelDetail',
+                authority: ['admin']
+            },
+
+
             /*----------------- 摸排记录查询 -------------------*/
-           /* {
+            {
                 path: '/addInfo',
                 name: 'addInfo',
                 icon: 'home',
@@ -86,7 +106,7 @@ export default [
                 component: './AddInfo/AddInfoDetail',
                 authority: ['user','admin'],
                 // authority: ['user'],
-            },*/
+            },
             /*----------------- 摸排工作统计表 -------------------*/
             // {
             //     path: '/touchStatisticsPage',
