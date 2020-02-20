@@ -422,7 +422,7 @@ class PersonnelStatisticsList extends PureComponent {
             });
         }).then(response => {
             if (response.code === 0) {
-                T.prompt.success("提交成功");
+                T.prompt.success("删除成功");
                 self.fetchDataList();
             } else {
                 T.prompt.error(response.msg);
@@ -655,9 +655,9 @@ class PersonnelStatisticsList extends PureComponent {
                                         <Button onClick={this.resetDataSource} type="primary" style={{marginRight: 10}}>
                                             重置
                                         </Button>
-                                        <Button onClick={this.exportData} type="primary">
-                                            导出
-                                        </Button>
+                                        {/*<Button onClick={this.exportData} type="primary">*/}
+                                            {/*导出*/}
+                                        {/*</Button>*/}
                                     </Form.Item>
                                 </Col>
                             </Row>
