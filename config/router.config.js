@@ -102,6 +102,12 @@ export default [
                 // authority: ['user'],
             },
             {
+                path: '/addInfo/addInfoEdit',
+                component: './AddInfo/AddInfoEdit',
+                authority: ['user','admin'],
+                // authority: ['user'],
+            },
+            {
                 path: '/addInfo/addInfoDetail',
                 component: './AddInfo/AddInfoDetail',
                 authority: ['user','admin'],
