@@ -2,6 +2,7 @@ import React, {PureComponent, Fragment} from 'react';
 import {connect} from 'dva';
 import styles from './AddPersonnelDetail.less';
 import T from './../../utils/T';
+import router from 'umi/router';
 
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import CustomBreadcrumb from '@/templates/ToolComponents/CustomBreadcrumb';
@@ -294,6 +295,9 @@ class AddPersonnelDetail extends PureComponent {
                     if (response.code === 0) {
                         T.prompt.success("提交成功");
                         self.resetForm();
+                        router.push({
+                            pathname: '/personnelStatistics',
+                        });
                     } else {
                         T.prompt.error(response.msg);
                     }
