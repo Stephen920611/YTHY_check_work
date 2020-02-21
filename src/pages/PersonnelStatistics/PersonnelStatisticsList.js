@@ -300,7 +300,7 @@ class PersonnelStatisticsList extends PureComponent {
             if (!err) {
                 //地区分类
                 // let loginInfo = T.auth.getLoginInfo();
-
+                console.log(values,'values');
                 let params = {
                     current: currentPage,
                     size: EnumDataSyncPageInfo.defaultPageSize,
@@ -582,7 +582,7 @@ class PersonnelStatisticsList extends PureComponent {
                                     <Form.Item
                                         label='有无咳嗽、胸闷等症状'
                                     >
-                                        {getFieldDecorator('symptom', {
+                                        {getFieldDecorator('isSymptom', {
                                             // initialValue: "否",
                                         })(
                                             <Radio.Group onChange={this.onChange}>
@@ -596,7 +596,7 @@ class PersonnelStatisticsList extends PureComponent {
                                     <Form.Item
                                         label='是否密切接触者'
                                     >
-                                        {getFieldDecorator('contact', {
+                                        {getFieldDecorator('isCloser', {
                                             // initialValue: "否",
                                         })(
                                             <Radio.Group onChange={this.onChange}>
@@ -639,7 +639,7 @@ class PersonnelStatisticsList extends PureComponent {
                                     <Form.Item
                                         label='责任民警'
                                     >
-                                        {getFieldDecorator('head', {})(
+                                        {getFieldDecorator('dutyPolice', {})(
                                             <Input
                                                 autoComplete="off"
                                                 placeholder='请输入责任民警'
