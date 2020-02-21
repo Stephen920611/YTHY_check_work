@@ -150,7 +150,7 @@ class AddPersonnelDetail extends PureComponent {
                 self.setState({
                     id:T.lodash.isUndefined(data.id) ? 0 : data.id,
                 });
-                console.log('1111',T.moment(new Date(data.regDate).getTime()));
+                // console.log('1111',T.moment(new Date(data.regDate).getTime()));
                 if (response.code === 0) {
                     self.props.form.setFieldsValue({
                         name: T.lodash.isUndefined(data.name) ? '' : data.name,
@@ -165,6 +165,10 @@ class AddPersonnelDetail extends PureComponent {
                         dateConvertSuspect: T.lodash.isUndefined(data.dateConvertSuspect) ? '' : data.dateConvertSuspect === null ?  null : T.moment(new Date(data.dateConvertSuspect).getTime()),
                         dateLeftPass: T.lodash.isUndefined(data.dateLeftPass) ? '' :data.dateLeftPass === null ?  null : T.moment(new Date(data.dateLeftPass).getTime()),
                         dateRelease: T.lodash.isUndefined(data.dateRelease) ? '' : data.dateRelease === null ?  null : T.moment(new Date(data.dateRelease).getTime()),
+                        timeLeftShangdong: T.lodash.isUndefined(data.timeLeftShangdong) ? '' :data.timeLeftShangdong === null ?  null : T.moment(new Date(data.timeLeftShangdong).getTime()),
+                        touchDate: T.lodash.isUndefined(data.touchDate) ? '' : data.touchDate === null ?  null : T.moment(new Date(data.touchDate).getTime()),
+                        regDate: T.lodash.isUndefined(data.regDate) ? '' : data.regDate === null ?  null :T.moment(new Date(data.regDate).getTime()),
+
                         dutyPolice: T.lodash.isUndefined(data.dutyPolice) ? '' : data.dutyPolice,
                         dutyPoliceTelephone: T.lodash.isUndefined(data.dutyPoliceTelephone) ? '' : data.dutyPoliceTelephone,
                         idCard:T.lodash.isUndefined(data.idCard) ? '' : data.idCard,
@@ -172,7 +176,6 @@ class AddPersonnelDetail extends PureComponent {
                         isFromOtherProvince: T.lodash.isUndefined(data.isFromOtherProvince) ? '' : data.isFromOtherProvince,
                         isSymptom: T.lodash.isUndefined(data.isSymptom) ? '' : data.isSymptom,
                         leftPlace: T.lodash.isUndefined(data.leftPlace) ? '' : data.leftPlace,
-                        regDate: T.lodash.isUndefined(data.regDate) ? '' : data.regDate === null ?  null :T.moment(new Date(data.regDate).getTime()),
                         relationSuspector: T.lodash.isUndefined(data.relationSuspector) ? '' : data.relationSuspector,
                         residenceAddress: T.lodash.isUndefined(data.residenceAddress) ? '' : data.residenceAddress,
                         residenceType: T.lodash.isUndefined(data.residenceType) ? '' : data.residenceType,
@@ -181,11 +184,10 @@ class AddPersonnelDetail extends PureComponent {
                         suspectorName: T.lodash.isUndefined(data.suspectorName) ? '' : data.suspectorName,
                         telephone: T.lodash.isUndefined(data.telephone) ? '' : data.telephone,
                         temperature: T.lodash.isUndefined(data.temperature) ? '' : data.temperature,
-                        timeLeftShangdong: T.lodash.isUndefined(data.timeLeftShangdong) ? '' : data.timeLeftShangdong,
-                        touchDate: T.lodash.isUndefined(data.touchDate) ? '' : data.touchDate === null ?  null : T.moment(new Date(data.touchDate).getTime()),
                         typeArrvie: T.lodash.isUndefined(data.typeArrvie) ? '' : data.typeArrvie,
 
                     });
+                    // console.log('2222');
                 } else {
                     T.prompt.error(response.msg);
                 }
@@ -243,6 +245,7 @@ class AddPersonnelDetail extends PureComponent {
             if (!err) {
                 // let loginInfo = T.auth.getLoginInfo();
                 // let userId = loginInfo.data.id;
+                // console.log('values',values);
                 let params = {
                     districts: T.lodash.isUndefined(values.districts) ? '' : values.districts,
                     name: T.lodash.isUndefined(values.name) ? '' : values.name,
@@ -251,11 +254,16 @@ class AddPersonnelDetail extends PureComponent {
                     controlMeasure: T.lodash.isUndefined(values.controlMeasure) ? '' : values.controlMeasure,
                     controlPerson: T.lodash.isUndefined(values.controlPerson) ? '' : values.controlPerson,
                     controlTelephone: T.lodash.isUndefined(values.controlTelephone) ? '' : values.controlTelephone,
-                    dateArrive: T.lodash.isUndefined(values.dateArrive) ? '' : values.dateArrive === '' ?  '' : T.helper.dateFormat(values.dateArrive,'YYYY-MM-DD'),
-                    dateConvertConfirm: T.lodash.isUndefined(values.dateConvertConfirm) ? '' :values.dateConvertConfirm === '' ?  null : T.helper.dateFormat(values.dateConvertConfirm,'YYYY-MM-DD'),
-                    dateConvertSuspect: T.lodash.isUndefined(values.dateConvertSuspect) ? '' : values.dateConvertSuspect === '' ?  null : T.helper.dateFormat(values.dateConvertSuspect,'YYYY-MM-DD'),
-                    dateLeftPass: T.lodash.isUndefined(values.dateLeftPass) ? '' : values.dateLeftPass === '' ?  '' : T.helper.dateFormat(values.dateLeftPass,'YYYY-MM-DD'),
-                    // dateRelease: T.lodash.isUndefined(values.dateRelease) ? '' : values.dateRelease === '' ?  '' :  T.helper.dateFormat(values.dateRelease,'YYYY-MM-DD'),
+
+                    touchDate: T.lodash.isUndefined(values.touchDate) ? '' : values.touchDate === null ?  null :T.helper.dateFormat(values.touchDate,'YYYY-MM-DD'),
+                    timeLeftShangdong: T.lodash.isUndefined(values.timeLeftShangdong) ? '' :  values.timeLeftShangdong === null ?  null: T.helper.dateFormat( values.timeLeftShangdong,'YYYY-MM-DD'),
+                    regDate: T.lodash.isUndefined(values.regDate) ? '' : values.regDate === null ?  null: T.helper.dateFormat(values.regDate,'YYYY-MM-DD'),
+                    dateArrive: T.lodash.isUndefined(values.dateArrive) ? '' : values.dateArrive === null ?  null : T.helper.dateFormat(values.dateArrive,'YYYY-MM-DD'),
+                    dateConvertConfirm: T.lodash.isUndefined(values.dateConvertConfirm) ? '' :values.dateConvertConfirm === null ?  null : T.helper.dateFormat(values.dateConvertConfirm,'YYYY-MM-DD'),
+                    dateConvertSuspect: T.lodash.isUndefined(values.dateConvertSuspect) ? '' : values.dateConvertSuspect === null ?  null : T.helper.dateFormat(values.dateConvertSuspect,'YYYY-MM-DD'),
+                    dateLeftPass: T.lodash.isUndefined(values.dateLeftPass) ? '' : values.dateLeftPass === null ?  null : T.helper.dateFormat(values.dateLeftPass,'YYYY-MM-DD'),
+                    dateRelease: T.lodash.isUndefined(values.dateRelease) ? '' : values.dateRelease === null ?  null :  T.helper.dateFormat(values.dateRelease,'YYYY-MM-DD'),
+
                     dutyPolice: T.lodash.isUndefined(values.dutyPolice) ? '' : values.dutyPolice,
                     dutyPoliceTelephone: T.lodash.isUndefined(values.dutyPoliceTelephone) ? '' : values.dutyPoliceTelephone,
                     id: infoEdit ? id : 0,
@@ -264,7 +272,6 @@ class AddPersonnelDetail extends PureComponent {
                     isFromOtherProvince: T.lodash.isUndefined(values.isFromOtherProvince) ? '' : values.isFromOtherProvince,
                     isSymptom: T.lodash.isUndefined(values.isSymptom) ? '' : values.isSymptom,
                     leftPlace: T.lodash.isUndefined(values.leftPlace) ? '' : values.leftPlace,
-                    regDate: T.lodash.isUndefined(values.regDate) ? '' : values.regDate === '' ?  '': T.helper.dateFormat(values.regDate,'YYYY-MM-DD'),
                     relationSuspector: T.lodash.isUndefined(values.relationSuspector) ? '' : values.relationSuspector,
                     residenceAddress: T.lodash.isUndefined(values.residenceAddress) ? '' : values.residenceAddress,
                     residenceType: T.lodash.isUndefined(values.residenceType) ? '' : values.residenceType,
@@ -273,11 +280,9 @@ class AddPersonnelDetail extends PureComponent {
                     suspectorName: T.lodash.isUndefined(values.suspectorName) ? '' : values.suspectorName,
                     telephone: T.lodash.isUndefined(values.telephone) ? '' : values.telephone,
                     temperature: T.lodash.isUndefined(values.temperature) ? '' : values.temperature,
-                    timeLeftShangdong: T.lodash.isUndefined(values.timeLeftShangdong) ? '' : values.timeLeftShangdong,
-                    touchDate: T.lodash.isUndefined(values.touchDate) ? '' :values.touchDate === '' ?  '' :T.helper.dateFormat(values.touchDate,'YYYY-MM-DD'),
                     typeArrvie: T.lodash.isUndefined(values.typeArrvie) ? '' : values.typeArrvie,
                 };
-                console.log(params);
+                // console.log(params);
                 new Promise((resolve, reject) => {
                     dispatch({
                         type:infoEdit ? 'personnelStatistics/updateInfoAction' :'personnelStatistics/addInfoAction',

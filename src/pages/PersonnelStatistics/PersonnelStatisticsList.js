@@ -221,19 +221,7 @@ class PersonnelStatisticsList extends PureComponent {
             "touchs": null,
             "currnets": null
         },
-        tableData: [
-            {
-                key: 1,
-                address: '县市区',
-                name: '姓名',
-                age: 18,
-                sex: '性别',
-                createDate: '创建时间',
-                pId: '123456787',
-                status: '基本状况',
-            },
-
-        ]
+        tableData: []
     };
 
     componentDidMount() {
@@ -313,7 +301,7 @@ class PersonnelStatisticsList extends PureComponent {
                     isCloser: T.lodash.isUndefined(values.isCloser) ? '' : values.isCloser,
                     dutyPolice: T.lodash.isUndefined(values.dutyPolice) ? '' : values.dutyPolice,
                     // fillUserId: loginInfo.data.static_auth === 0 ? loginInfo.data.id : ''   //摸排人id
-                }
+                };
                 new Promise((resolve, reject) => {
                     dispatch({
                         type: 'personnelStatistics/fetchCheckRecordListAction',
@@ -479,7 +467,7 @@ class PersonnelStatisticsList extends PureComponent {
                 title: '到达本市日期',
                 dataIndex: 'dateArrive',
                 key: 'dateArrive',
-                render: text => <span >{T.helper.dateFormat(text,'YYYY-MM-DD')}</span>
+                render: text => <span >{text === null ? '':T.helper.dateFormat(text,'YYYY-MM-DD')}</span>
             },
             {
                 title: '来鲁方式',
@@ -510,7 +498,7 @@ class PersonnelStatisticsList extends PureComponent {
                 title: '登记日期',
                 dataIndex: 'regDate',
                 key: 'regDate',
-                render: text => <span >{T.helper.dateFormat(text,'YYYY-MM-DD')}</span>
+                render: text => <span >{text === null ? '': T.helper.dateFormat(text,'YYYY-MM-DD')}</span>
             },
             {
                 title: '操作',
@@ -680,7 +668,7 @@ class PersonnelStatisticsList extends PureComponent {
                                     // dataSource={members}
                                     dataSource={tableData}
                                     rowSelection={rowSelection}
-                                    // loading={fetchCheckRecordListStatus}
+                                    loading={fetchCheckRecordListStatus}
                                     pagination={{
                                         current: currentPage,
                                         onChange: this.pageChange,
